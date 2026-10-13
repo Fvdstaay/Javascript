@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floris' Portfolio Lab_1</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body id="top">
+    <header>
+        <a href="#top" class="logo">
+            <h1>Floris' Portfolio</h1>
+        </a>
+
+        <nav>
+            <a href="#about" class="button">About</a>
+            <a href="#projects" class="button">Skills</a>
+            <a href="#contact" class="button">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="landing">
+            <div class="intro">
+                <h2>Welcome to my portfolio!</h2>
+
+                <p>
+                    This is a simple portfolio website created as part
+                    of a JavaScript lab assignment.
+                </p>
+            </div>
+
+            <div class="polaroid">
+                <img src="Champagne.jpeg" alt="Drinks in Champagne">
+                <div class="container">Champagne summer 2026</div>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>About me</h2>
+            <h3>My interests</h3>
+
+            <ul>
+                <li>Programming</li>
+                <li>Coffee and pastries</li>
+                <li>Science and technology</li>
+            </ul>
+            <h3>My story</h3>
+             <div   class="carousel"
+                    tabindex="0"
+                    aria-label="Stories about me">
+
+                    <div class="story-card polaroid">
+                        <img
+                            src="Graduating.jpeg"
+                            alt="A picture of me and my sister graduating highschool"
+                        >
+                    
+                        <div class="container">
+                            <h3>Orbit calculations</h3>
+                        
+                            <p>
+                                One of my favourite classes in high school had us calculate the energy needed to get into <em>Orbit</em>. 
+                                This class made me realise how much i loved science and knowing how the basics work. 
+                                The fact there are now <a href="https://space.geometrian.com/calcs/orbit-energy.php" >calculators</a> that do it for you is kind of sad.
+                                This memory really stays with me asit was one of the few classes i attended and enjoyed.
+            
+                            </p>
+                        </div>
+                    </div>
+                
+                    <div class="story-card polaroid">
+                        <img
+                            src="Cafe.jpeg"
+                            alt="Myself hosting a cafe at home"
+                        >
+                    
+                        <div class="container">
+                            <h3>Coffee and Pastries</h3>
+                        
+                            <p>
+                                One of my biggest personal interests has become coffee and pastries. When i moved to Sweden i started to understand the Fika culture.
+                                After moving back to the Netherlands i really missed this and as such decided to host a cafe at home.
+                                To this day it is one of my proudest achievements, I hosted for around 30 people and felt so loved being surrounded by my friends.
+                            </p>
+                        </div>
+                    </div>
+                
+                    <div class="story-card polaroid">
+                        <img
+                            src="CoffeeMachine.jpeg"
+                            alt="A modded cofee machine i built"
+                        >
+                    
+                        <div class="container">
+                            <h3>Colliding Hobbies</h3>
+                        
+                            <p>
+                                This is one of the fun things I have done and enjoy daily. I modded my cofee machine, combining cofee and programming.
+                                With this the machine now is controlled by a little microcontroller and can be programmed to extract the coffee in different ways.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="story-card polaroid">
+                        <img src="future.jpeg" alt="Picture of working from Berlin">
+
+                        <div class="container">
+                            <h3>My future goal</h3>
+
+                            <p>
+                                One of my goals in the future is to go on "work" trips where i choose a fun city and live and work from there for a couple of months.
+                                I have started working towards it by doing my studies remote and now working from the train to Berlin and berlin itself.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <section id="projects">
+            <h3>Skills I am developing</h3>
+                    <div class="table-container">
+                <table class="skills-table">
+                    <caption>My programming skills</caption>
+                
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Level</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                
+                    <tbody>
+                        <tr>
+                            <td>HTML</td>
+                            <td><span class="level beginner">Beginner</span></td>
+                            <td>This portfolio website</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>CSS</td>
+                            <td><span class="level beginner">Beginner</span></td>
+                            <td>Responsive website styling</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>Python</td>
+                            <td><span class="level intermediate">Intermediate</span></td>
+                            <td>Machine-learning applications</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>C++</td>
+                            <td><span class="level intermediate">Intermediate</span></td>
+                            <td>Kattis problem solving</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>Java</td>
+                            <td><span class="level intermediate">Intermediate</span></td>
+                            <td>Programming exercises and small applications</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        <section id="contact">
+            <h2>Contact me</h2>
+
+            <form action="mailto:my@email.com?subject=Message%20from%20my%20portfolio" method="post" enctype="text/plain">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" required>
+
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+
+                <button class="button" type="submit">Send message</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+    <p>&copy; 2026 Floris</p>
+
+    <nav class="footer-links">
+        <a href="mailto:my@email.com" class="button">Email</a>
+        <a href="#about" class="button" >About</a>
+        <a href="#contact" class="button" >Skills</a>
+        <a href="#top" class="button" >Back to top</a>
+    </nav>
+</footer>
+</body>
+</html>

@@ -1,0 +1,269 @@
+html {
+    background-color: ivory;
+    color: #14263d;
+}
+
+body {
+    margin: 0;
+
+}
+
+header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+    background-color: #14263d;
+    color: white;
+}
+
+.logo {
+    text-decoration: none;
+    color: white;
+}
+
+.logo:hover{
+    color: #b87333;
+}
+
+header h1 {
+    margin: 0;
+}
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.landing {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    min-height: 80vh;
+}
+
+section {
+    padding: 80px 0;
+    scroll-margin-top: 100px;
+}
+
+#about,
+#projects,
+#contact {
+    border-top: 1px solid #d8d0c2;
+}
+
+.polaroid {
+    overflow: hidden;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.polaroid img {
+    display: block;
+    width: 100%;
+}
+
+.container {
+    padding: 20px;
+    text-align: center;
+}
+
+.carousel {
+    display: flex;
+    gap: 25px;
+    padding: 10px 5px 25px;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+}
+
+.story-card {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
+}
+
+.story-card img {
+    height: 300px;
+    object-fit: cover;
+}
+
+.story-card h3 {
+    margin-top: 0;
+    color: #14263d;
+}
+
+.story-card p {
+    line-height: 1.6;
+}
+
+form {
+    display: flex;
+    max-width: 600px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input,
+textarea {
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid #14263d;
+    border-radius: 5px;
+    font: inherit;
+}
+
+
+.button {
+    width: fit-content;
+    padding: 12px 20px;
+
+    background-color: #14263d;
+    color: white;
+
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.button:hover,
+.button:focus {
+    background-color: #b87333;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+.carousel:focus-visible {
+    outline: 3px solid #b87333;
+    outline-offset: 3px;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    padding: 20px;
+    background-color: #14263d;
+    color: white;
+}
+.table-container {
+    max-width: 900px;
+    margin: 30px auto;
+    overflow-x: auto;
+
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.skills-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.skills-table caption {
+    padding: 20px;
+    color: #14263d;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left;
+}
+
+.skills-table th {
+    padding: 15px 20px;
+    background-color: #14263d;
+    color: white;
+}
+
+.skills-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #d8d0c2;
+}
+
+.skills-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.skills-table tbody tr:nth-child(even) {
+    background-color: #f7f2e8;
+}
+
+.skills-table tbody tr:hover {
+    background-color: #eee1cc;
+}
+
+.skills-table td:first-child {
+    color: #14263d;
+    font-weight: bold;
+}
+
+.level {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.beginner {
+    color: #14263d;
+    background-color: #dce6f0;
+}
+
+.intermediate {
+    color: white;
+    background-color: #b87333;
+}
+
+@media (max-width: 700px) {
+    header {
+        position: static;
+        flex-direction: column;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .landing {
+        flex-direction: column;
+    }
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .story-card {
+        flex-basis: 90%;
+    }
+    .skills-table th,
+    .skills-table td {
+        padding: 12px;
+    }
+
+    .skills-table caption {
+        font-size: 1.25rem;
+    }
+}
