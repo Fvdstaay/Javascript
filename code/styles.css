@@ -1,13 +1,28 @@
+/* Colour scheme: change these values to customise the whole page. */
+:root {
+    --color-page-background: ivory;
+    --color-primary: #14263d;
+    --color-surface: white;
+    --color-accent: #b87333;
+    --color-border: #d8d0c2;
+    --color-card-shadow: rgba(0, 0, 0, 0.2);
+    --color-table-shadow: rgba(0, 0, 0, 0.15);
+    --color-row-background: #f7f2e8;
+    --color-row-hover: #eee1cc;
+    --color-beginner-background: #dce6f0;
+}
+
+/* Base page styles */
 html {
-    background-color: ivory;
-    color: #14263d;
+    background-color: var(--color-page-background);
+    color: var(--color-primary);
 }
 
 body {
     margin: 0;
-
 }
 
+/* Header and navigation */
 header {
     position: sticky;
     top: 0;
@@ -16,27 +31,30 @@ header {
     align-items: center;
     gap: 30px;
     padding: 20px;
-    background-color: #14263d;
-    color: white;
+
+    background-color: var(--color-primary);
+    color: var(--color-surface);
 }
 
 .logo {
     text-decoration: none;
-    color: white;
+    color: var(--color-surface);
 }
 
-.logo:hover{
-    color: #b87333;
+.logo:hover {
+    color: var(--color-accent);
 }
 
 header h1 {
     margin: 0;
 }
+
 nav {
     display: flex;
     gap: 25px;
 }
 
+/* Main content and sections */
 main {
     max-width: 1000px;
     margin: 0 auto;
@@ -59,14 +77,15 @@ section {
 #about,
 #projects,
 #contact {
-    border-top: 1px solid #d8d0c2;
+    border-top: 1px solid var(--color-border);
 }
 
+/* Photo cards */
 .polaroid {
     overflow: hidden;
-    background-color: white;
+    background-color: var(--color-surface);
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px var(--color-card-shadow);
 }
 
 .polaroid img {
@@ -79,6 +98,7 @@ section {
     text-align: center;
 }
 
+/* Story carousel */
 .carousel {
     display: flex;
     gap: 25px;
@@ -100,13 +120,14 @@ section {
 
 .story-card h3 {
     margin-top: 0;
-    color: #14263d;
+    color: var(--color-primary);
 }
 
 .story-card p {
     line-height: 1.6;
 }
 
+/* Contact form */
 form {
     display: flex;
     max-width: 600px;
@@ -118,18 +139,19 @@ input,
 textarea {
     margin-bottom: 15px;
     padding: 12px;
-    border: 1px solid #14263d;
+    border: 1px solid var(--color-primary);
     border-radius: 5px;
+
     font: inherit;
 }
 
-
+/* Buttons */
 .button {
     width: fit-content;
     padding: 12px 20px;
 
-    background-color: #14263d;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-surface);
 
     border: none;
     border-radius: 5px;
@@ -138,18 +160,20 @@ textarea {
 
 .button:hover,
 .button:focus {
-    background-color: #b87333;
+    background-color: var(--color-accent);
 }
 
+/* Keyboard focus indicators */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 .carousel:focus-visible {
-    outline: 3px solid #b87333;
+    outline: 3px solid var(--color-accent);
     outline-offset: 3px;
 }
 
+/* Footer */
 footer {
     display: flex;
     justify-content: space-between;
@@ -157,17 +181,19 @@ footer {
     gap: 20px;
 
     padding: 20px;
-    background-color: #14263d;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-surface);
 }
+
+/* Skills table */
 .table-container {
     max-width: 900px;
     margin: 30px auto;
     overflow-x: auto;
 
-    background-color: white;
+    background-color: var(--color-surface);
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px var(--color-table-shadow);
 }
 
 .skills-table {
@@ -178,7 +204,8 @@ footer {
 
 .skills-table caption {
     padding: 20px;
-    color: #14263d;
+    color: var(--color-primary);
+
     font-size: 1.5rem;
     font-weight: bold;
     text-align: left;
@@ -186,13 +213,13 @@ footer {
 
 .skills-table th {
     padding: 15px 20px;
-    background-color: #14263d;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-surface);
 }
 
 .skills-table td {
     padding: 15px 20px;
-    border-bottom: 1px solid #d8d0c2;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .skills-table tbody tr:last-child td {
@@ -200,36 +227,39 @@ footer {
 }
 
 .skills-table tbody tr:nth-child(even) {
-    background-color: #f7f2e8;
+    background-color: var(--color-row-background);
 }
 
 .skills-table tbody tr:hover {
-    background-color: #eee1cc;
+    background-color: var(--color-row-hover);
 }
 
 .skills-table td:first-child {
-    color: #14263d;
+    color: var(--color-primary);
     font-weight: bold;
 }
 
+/* Skill level badges */
 .level {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 20px;
+
     font-size: 0.85rem;
     font-weight: bold;
 }
 
 .beginner {
-    color: #14263d;
-    background-color: #dce6f0;
+    color: var(--color-primary);
+    background-color: var(--color-beginner-background);
 }
 
 .intermediate {
-    color: white;
-    background-color: #b87333;
+    color: var(--color-surface);
+    background-color: var(--color-accent);
 }
 
+/* Small screens (700px and below) */
 @media (max-width: 700px) {
     header {
         position: static;
@@ -258,6 +288,7 @@ footer {
     .story-card {
         flex-basis: 90%;
     }
+
     .skills-table th,
     .skills-table td {
         padding: 12px;
