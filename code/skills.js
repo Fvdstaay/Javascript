@@ -104,7 +104,8 @@ const skills = [
 const skillsList = document.getElementById("skills-list");
 
 /**
- * Replaces the displayed cards with the supplied skills.
+ * Replaces displayed cards with complete information for each supplied skill.
+ * Shows category, proficiency, experience, and description.
  * Does not modify the source array or its objects.
  *
  * @param {Skill[]} skillsToRender
@@ -122,10 +123,47 @@ function renderSkills(skillsToRender) {
         const heading = document.createElement("h3");
         heading.textContent = skill.name;
 
+        const category = document.createElement("span");
+        category.classList.add("skill-category");
+        category.textContent = skill.category;
+
+        const proficiencyText = document.createElement("p");
+        proficiencyText.classList.add("skill-proficiency-text");
+        proficiencyText.textContent =
+            `Proficiency: ${skill.proficiency} out of 5`;
+
+        const proficiencyMeter = document.createElement("meter");
+        proficiencyMeter.classList.add("skill-proficiency");
+        proficiencyMeter.min = 1;
+        proficiencyMeter.max = 5;
+        proficiencyMeter.value = skill.proficiency;
+        proficiencyMeter.setAttribute(
+            "aria-label",
+            `${skill.name} proficiency`
+        );
+
+        const experience = document.createElement("p");
+        experience.classList.add("skill-experience");
+
+        const yearLabel =
+            skill.yearsExperience === 1 ? "year" : "years";
+
+        experience.textContent =
+            `${skill.yearsExperience} ${yearLabel} of experience`;
+
         const description = document.createElement("p");
+        description.classList.add("skill-description");
         description.textContent = skill.description;
 
-        card.append(heading, description);
+        card.append(
+            heading,
+            category,
+            proficiencyText,
+            proficiencyMeter,
+            experience,
+            description
+        );
+
         fragment.append(card);
     });
 
