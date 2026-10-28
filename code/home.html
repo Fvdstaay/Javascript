@@ -219,15 +219,18 @@
                 </div>
                 <div class="form_field">
                     <label for="comments">Comments <span class="required-marker" aria-hidden="true">*</span></label>
-                    <textarea
+                    <div class="comments_wrapper">
+
+                        <textarea
                         id="comments"
                         name="comments"
                         rows="5"
                         minlength="15"
                         aria-describedby="comments-counter comments-error"
                         required
-                    ></textarea>
-                    <p id="comments-counter">0 characters written; minimum 15.</p>
+                        ></textarea>
+                        <p id="comments-counter">0/15</p>
+                    </div>
                     <p id="comments-error" class="field-error"></p>
                 </div>
 

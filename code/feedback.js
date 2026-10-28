@@ -20,6 +20,9 @@ const websiteError = document.getElementById("website-error");
 const commentsCounter = document.getElementById("comments-counter");
 const formStatus = document.getElementById("form-status");
 
+// Let our submit handler display all field errors together.
+feedbackForm.noValidate = true;
+
 /**
  * Displays a field error and exposes its invalid state to assistive technology.
  * Does not change the field's value.
@@ -199,19 +202,30 @@ function validateWebsite() {
     return true;
 }
 
+
+/**
+ * Counts Unicode code points excluding whitespace.
+ *
+ * @param {string} text The text to count.
+ * @returns {number} The number of non-whitespace code points.
+ */
+function countCommentCharacters(text) {
+    return Array.from(text.replace(/\s/gu, "")).length;
+}
+
 /**
  * Updates the written character count and minimum-length feedback.
- * Counts the textarea value using JavaScript string length.
+ * Counts Unicode code points excluding whitespace.
  * Does not change the textarea's validation state.
  *
  * @returns {void}
  */
 function updateCommentsCounter() {
-    const count = commentsInput.value.length;
+    const count = countCommentCharacters(commentsInput.value);
     const meetsMinimum = count >= MIN_COMMENTS_LENGTH;
 
     commentsCounter.textContent =
-        `${count} characters written; minimum ${MIN_COMMENTS_LENGTH}.`;
+    `${count}/${MIN_COMMENTS_LENGTH}`;
 
     commentsCounter.classList.toggle("is-invalid", !meetsMinimum);
     commentsCounter.classList.toggle("is-valid", meetsMinimum);
@@ -236,7 +250,7 @@ function validateComments() {
         return false;
     }
 
-    if (comments.length < MIN_COMMENTS_LENGTH) {
+    if (countCommentCharacters(comments) < MIN_COMMENTS_LENGTH) {
         showFieldError(
             commentsInput,
             commentsError,
@@ -249,11 +263,59 @@ function validateComments() {
     return true;
 }
 
+/**
+ * Prevents navigation and validates every field before showing success.
+ * Keeps entered values in place; reset behavior is handled separately.
+ *
+ * @param {SubmitEvent} event
+ *     The form submission event.
+ * @returns {void}
+ */
+function handleSubmit(event) {
+    event.preventDefault();
+
+    // Remove any success message left from a previous submission.
+    formStatus.textContent = "";
+
+    const nameIsValid = validateFullName();
+    const emailIsValid = validateEmail();
+    const topicIsValid = validateTopic();
+    const commentsAreValid = validateComments();
+    const websiteIsValid = validateWebsite();
+
+    updateCommentsCounter();
+
+    const formIsValid =
+        nameIsValid &&
+        emailIsValid &&
+        topicIsValid &&
+        commentsAreValid &&
+        websiteIsValid;
+
+    if (!formIsValid) {
+        const firstInvalidField = feedbackForm.querySelector(
+            '[aria-invalid="true"]'
+        );
+
+        if (firstInvalidField) {
+            firstInvalidField.focus();
+        }
+
+        return;
+    }
+
+    const fullName = fullNameInput.value.trim();
+
+    formStatus.textContent =
+        `Thanks for your feedback, ${fullName}!`;
+}
+
 // Check text fields when the user leaves them.
 fullNameInput.addEventListener("blur", validateFullName);
 emailInput.addEventListener("blur", validateEmail);
 websiteInput.addEventListener("blur", validateWebsite);
 commentsInput.addEventListener("blur", validateComments);
+feedbackForm.addEventListener("submit", handleSubmit);
 
 // Recheck edited fields after their first validation.
 fullNameInput.addEventListener("input", () => {

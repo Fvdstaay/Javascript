@@ -206,10 +206,28 @@ section {
     display: none;
 }
 
+.comments_wrapper {
+    position: relative;
+}
+
+.comments_wrapper textarea {
+    display: block;
+    padding-bottom: 3.5rem;
+}
+
 #comments-counter {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 28px;
+
     margin: 0;
-    font-size: 0.9rem;
+    color: #666666;
+    background-color: var(--color-surface);
+    font-size: 0.85rem;
     line-height: 1.5;
+    text-align: right;
+    pointer-events: none;
 }
 
 #comments-counter.is-invalid {
