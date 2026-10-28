@@ -8,16 +8,14 @@
  * @property {string} name Display name.
  * @property {string} category Category used for filtering.
  * @property {number} proficiency Suggested self-assessment from 1 to 5.
- * @property {number|null} yearsExperience Experience in years, or null until confirmed.
+ * @property {number} yearsExperience Experience in years.
  * @property {string} description How the skill is used.
  */
 
 /**
  * Source data for the skills showcase.
+ * Contains self-assessed proficiency and experience values.
  * Filtering and sorting should create derived arrays.
- * Ratings are provisional self-assessments; Python, C++, and Java reflect
- * the intermediate levels stated in the existing portfolio.
- *
  *
  * @type {Skill[]}
  */
@@ -103,3 +101,35 @@ const skills = [
         description: "I document functions with JSDoc and maintain a Markdown report with implementation explanations and screenshots."
     }
 ];
+const skillsList = document.getElementById("skills-list");
+
+/**
+ * Replaces the displayed cards with the supplied skills.
+ * Does not modify the source array or its objects.
+ *
+ * @param {Skill[]} skillsToRender
+ *     The skills to display, in their intended order.
+ * @returns {void}
+ */
+function renderSkills(skillsToRender) {
+    const fragment = document.createDocumentFragment();
+
+    skillsToRender.forEach((skill) => {
+        const card = document.createElement("article");
+        card.classList.add("skill-card");
+        card.dataset.skillId = String(skill.id);
+
+        const heading = document.createElement("h3");
+        heading.textContent = skill.name;
+
+        const description = document.createElement("p");
+        description.textContent = skill.description;
+
+        card.append(heading, description);
+        fragment.append(card);
+    });
+
+    skillsList.replaceChildren(fragment);
+}
+
+renderSkills(skills);
