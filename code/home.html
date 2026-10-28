@@ -169,19 +169,85 @@
 
 
         <section id="contact">
-            <h2>Contact me</h2>
+            <h2>Contact and feedback</h2>
+            <p>Required fields are marked "*". Feedback stays in your browser.</p>
+            <form id="feedback_form">
+                <div class="form_field">
+                    <label for="full_name">Full Name *</label>
+                    <input
+                        id="full_name"
+                        name="fullName"
+                        type="text"
+                        autocomplete="name"
+                        minlength="2"
+                        aria-describedby="full-name-error"
+                        placeholder="John Doe"
+                        required
+                    >
+                    <p id="full-name-error" class="field-error"></p>
+                </div>
 
-            <form action="mailto:my@email.com?subject=Message%20from%20my%20portfolio" method="post" enctype="text/plain">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" required>
+                <div class="form_field">
+                    <label for="email">Email *</label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
+                            aria-describedby="email-error"
+                            placeholder="example@example.com"
+                            required
+                        >
+                    <p id="email-error" class="field-error"></p>
+                </div>
 
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" required>
+                <div class="form_field">
+                    <label for="topic">Topic of Interest *</label>
+                    <select
+                        id="topic"
+                        name="topic"
+                        aria-describedby="topic-error"
+                        required
+                    >
+                        <option value="" selected disabled>Choose a topic</option>
+                        <option value="programming">Programming</option>
+                        <option value="coffee">Coffee and pastries</option>
+                        <option value="science">Science and technology</option>
+                    </select>
+                    <p id="topic-error" class="field-error"></p>
+                </div>
+                <div class="form_field">
+                    <label for="comments">Comments *</label>
+                    <textarea
+                        id="comments"
+                        name="comments"
+                        rows="5"
+                        minlength="15"
+                        aria-describedby="comments-counter comments-error"
+                        required
+                    ></textarea>
+                    <p id="comments-counter">0 characters written; minimum 15.</p>
+                    <p id="comments-error" class="field-error"></p>
+                </div>
 
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
+                <div class="form_field">
+                    <label for="website">Website</label>
+                    <input
+                        id="website"
+                        name="website"
+                        type="url"
+                        placeholder="https://example.com"
+                        aria-describedby="website-error"
+                    >
+                    <p id="website-error" class="field-error"></p>
+                </div>
 
-                <button class="button" type="submit">Send message</button>
+            <div class="form-actions">
+                <button class="button" type="reset">Clear</button>
+                <button class="button" type="submit">Submit feedback</button>
+            </div>
+
+            <p id="form-status" role="status" aria-atomic="true"></p>
             </form>
         </section>
     </main>
