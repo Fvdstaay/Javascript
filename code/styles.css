@@ -10,6 +10,9 @@
     --color-row-background: #f7f2e8;
     --color-row-hover: #eee1cc;
     --color-beginner-background: #dce6f0;
+    --color-error: #a61b1b;
+    --color-success: #216e39;
+    --color-focus: #245a91;
 }
 
 /* Base page styles */
@@ -75,7 +78,7 @@ section {
 }
 
 #about,
-#projects,
+#skills,
 #contact {
     border-top: 1px solid var(--color-border);
 }
@@ -128,21 +131,108 @@ section {
 }
 
 /* Contact form */
-form {
+#feedback_form {
     display: flex;
-    max-width: 600px;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
 }
 
-input,
-textarea {
-    margin-bottom: 15px;
+.form_field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.form_field label {
+    font-weight: bold;
+}
+
+.required-marker {
+    color: var(--color-error);
+}
+.form_field input,
+.form_field select,
+.form_field textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
     padding: 12px;
+
     border: 1px solid var(--color-primary);
     border-radius: 5px;
+    background-color: var(--color-surface);
+    color: var(--color-primary);
 
     font: inherit;
+    transition: border-color 0.2s ease,
+                background-color 0.2s ease;
+}
+
+.form_field textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form_field input:focus,
+.form_field select:focus,
+.form_field textarea:focus {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+}
+
+.form_field .is-invalid {
+    border: 2px solid var(--color-error);
+}
+
+.form_field .is-valid {
+    border: 2px solid var(--color-success);
+}
+
+.field-error {
+    margin: 0;
+    color: var(--color-error);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.field-error:empty {
+    display: none;
+}
+
+#comments-counter {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+#comments-counter.is-invalid {
+    color: var(--color-error);
+}
+
+#comments-counter.is-valid {
+    color: var(--color-success);
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.form-actions .button {
+    min-height: 44px;
+    font: inherit;
+    cursor: pointer;
+}
+
+#form-status {
+    margin: 0;
+    color: var(--color-success);
+    font-weight: bold;
+    line-height: 1.5;
 }
 
 /* Buttons */
@@ -167,6 +257,7 @@ textarea {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
+select:focus-visible,
 textarea:focus-visible,
 .carousel:focus-visible {
     outline: 3px solid var(--color-accent);
@@ -297,4 +388,9 @@ footer {
     .skills-table caption {
         font-size: 1.25rem;
     }
+    .form_field input,
+    .form_field select,
+    .form_field textarea {
+        transition: none;
+}
 }
