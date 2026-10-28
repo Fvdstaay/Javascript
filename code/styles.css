@@ -388,9 +388,12 @@ footer {
     .skills-table caption {
         font-size: 1.25rem;
     }
+
+    @media (prefers-reduced-motion: reduce) {
     .form_field input,
     .form_field select,
     .form_field textarea {
         transition: none;
+    }
 }
 }
