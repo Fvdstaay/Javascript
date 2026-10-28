@@ -8,7 +8,7 @@ Progress recorded on 28 October 2026
 
 ## Project information
 
-I am extending my Lab 1 portfolio with vanilla JavaScript, targeting Grade 5. The current implementation contains the feedback form structure, supporting CSS, and shared JavaScript helpers. Field validation and submission handling are not yet connected.
+I am extending my Lab 1 portfolio with vanilla JavaScript, targeting Grade 5. The current implementation contains the feedback form structure, supporting CSS, shared JavaScript helpers, and validation for Full Name, Email, Topic of Interest, and Website. Comments validation and submission handling are not yet connected.
 
 ## Feedback form implementation
 
@@ -26,7 +26,13 @@ The stylesheet provides neutral controls, visible focus, red invalid states, gre
 
 code/feedback.js stores references to the form controls and feedback elements once using const. showFieldError() removes the valid class, adds the invalid class, sets aria-invalid to true, and writes a message using textContent. clearFieldError() removes the error class and aria-invalid attribute and empties the error message. showFieldValid() clears an error and adds the valid class. resetFieldState() clears the error and removes the valid class, returning the field to a neutral appearance without changing its value.
 
-The helpers separate presentation updates from validation rules. They update field styling, accessible invalid states, and error messages without changing field values. They are not yet connected to form events.
+The helpers separate presentation updates from validation rules. They update field styling, accessible invalid states, and error messages without changing field values. The field validators call these helpers in response to blur, input, and change events.
+
+## Field validation
+
+Full Name, Email, Topic of Interest, and the optional Website field have dedicated validators. Text fields are checked when they lose focus and rechecked during editing after their first validation. Topic selection is checked on change and blur. Each validator returns a boolean and uses the shared helpers to update error text, styling, and accessible invalid state.
+
+Name validation checks the trimmed value for at least two Unicode code points and allows international letters, combining marks, spaces, apostrophes, and hyphens while requiring at least one letter. Email and Website validation use the browser's typeMismatch property. Topic validation rejects the empty placeholder value. An empty Website field is accepted and returned to a neutral appearance because it is optional.
 
 ## Git development
 

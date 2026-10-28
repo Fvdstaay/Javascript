@@ -10,7 +10,7 @@
     --color-row-background: #f7f2e8;
     --color-row-hover: #eee1cc;
     --color-beginner-background: #dce6f0;
-    --color-error: #a61b1b;
+    --color-error: #f21d1d;
     --color-success: #216e39;
     --color-focus: #245a91;
 }
@@ -179,8 +179,8 @@ section {
 .form_field input:focus,
 .form_field select:focus,
 .form_field textarea:focus {
-    outline: 3px solid var(--color-focus);
-    outline-offset: 3px;
+    outline: 2px solid var(--color-focus);
+    outline-offset: 5px;
 }
 
 .form_field .is-invalid {
