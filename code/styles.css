@@ -183,11 +183,15 @@ section {
     outline-offset: 5px;
 }
 
-.form_field .is-invalid {
+.form_field input.is-invalid,
+.form_field select.is-invalid,
+.form_field textarea.is-invalid {
     border: 2px solid var(--color-error);
 }
 
-.form_field .is-valid {
+.form_field input.is-valid,
+.form_field select.is-valid,
+.form_field textarea.is-valid {
     border: 2px solid var(--color-success);
 }
 

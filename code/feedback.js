@@ -1,5 +1,7 @@
 "use strict";
 
+const MIN_COMMENTS_LENGTH = 15;
+
 // Store references once so handlers can reuse them.
 const feedbackForm = document.getElementById("feedback_form");
 
@@ -197,11 +199,61 @@ function validateWebsite() {
     return true;
 }
 
+/**
+ * Updates the written character count and minimum-length feedback.
+ * Counts the textarea value using JavaScript string length.
+ * Does not change the textarea's validation state.
+ *
+ * @returns {void}
+ */
+function updateCommentsCounter() {
+    const count = commentsInput.value.length;
+    const meetsMinimum = count >= MIN_COMMENTS_LENGTH;
+
+    commentsCounter.textContent =
+        `${count} characters written; minimum ${MIN_COMMENTS_LENGTH}.`;
+
+    commentsCounter.classList.toggle("is-invalid", !meetsMinimum);
+    commentsCounter.classList.toggle("is-valid", meetsMinimum);
+}
+
+
+/**
+ * Checks that comments contain meaningful text and meet the minimum length.
+ * Rejects whitespace-only input and updates the field's feedback.
+ *
+ * @returns {boolean} Whether the comments pass validation.
+ */
+function validateComments() {
+    const comments = commentsInput.value;
+
+    if (comments.trim() === "") {
+        showFieldError(
+            commentsInput,
+            commentsError,
+            "Please enter your comments."
+        );
+        return false;
+    }
+
+    if (comments.length < MIN_COMMENTS_LENGTH) {
+        showFieldError(
+            commentsInput,
+            commentsError,
+            `Please enter at least ${MIN_COMMENTS_LENGTH} characters.`
+        );
+        return false;
+    }
+
+    showFieldValid(commentsInput, commentsError);
+    return true;
+}
 
 // Check text fields when the user leaves them.
 fullNameInput.addEventListener("blur", validateFullName);
 emailInput.addEventListener("blur", validateEmail);
 websiteInput.addEventListener("blur", validateWebsite);
+commentsInput.addEventListener("blur", validateComments);
 
 // Recheck edited fields after their first validation.
 fullNameInput.addEventListener("input", () => {
@@ -230,6 +282,11 @@ websiteInput.addEventListener("input", () => {
         validateWebsite();
     }
 });
+commentsInput.addEventListener("input", () => {
+    updateCommentsCounter();
+    validateComments();
+});
+
 
 topicSelect.addEventListener("change", validateTopic);
 topicSelect.addEventListener("blur", validateTopic);

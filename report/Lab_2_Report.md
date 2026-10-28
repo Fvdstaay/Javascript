@@ -8,7 +8,7 @@ Progress recorded on 28 October 2026
 
 ## Project information
 
-I am extending my Lab 1 portfolio with vanilla JavaScript, targeting Grade 5. The current implementation contains the feedback form structure, supporting CSS, shared JavaScript helpers, and validation for Full Name, Email, Topic of Interest, and Website. Comments validation and submission handling are not yet connected.
+I am extending my Lab 1 portfolio with vanilla JavaScript, targeting Grade 5. The current implementation contains the feedback form structure, supporting CSS, shared JavaScript helpers, and validation for all five fields, including a live comments counter. Submission handling is not yet connected.
 
 ## Feedback form implementation
 
@@ -33,6 +33,14 @@ The helpers separate presentation updates from validation rules. They update fie
 Full Name, Email, Topic of Interest, and the optional Website field have dedicated validators. Text fields are checked when they lose focus and rechecked during editing after their first validation. Topic selection is checked on change and blur. Each validator returns a boolean and uses the shared helpers to update error text, styling, and accessible invalid state.
 
 Name validation checks the trimmed value for at least two Unicode code points and allows international letters, combining marks, spaces, apostrophes, and hyphens while requiring at least one letter. Email and Website validation use the browser's typeMismatch property. Topic validation rejects the empty placeholder value. An empty Website field is accepted and returned to a neutral appearance because it is optional.
+
+## Comments validation and counter
+
+Comments are validated on input and blur. Every input event also updates the written character count and its red or green minimum-length feedback. Validation requires at least 15 characters and rejects whitespace-only input. The counter and validator share one minimum-length constant.
+
+![Feedback form showing field errors and a live comments counter](screenshots/form-field-errors.png)
+
+*Figure 2: Field-validation feedback during editing. The name floris11 contains digits, the supplied email and Website values produce format errors, and the four-character comment is below the 15-character minimum. Coffee and pastries is selected and shown as valid. Errors include written explanations. This captures field feedback, rather than validation triggered by form submission.*
 
 ## Git development
 
