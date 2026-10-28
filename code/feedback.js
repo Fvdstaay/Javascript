@@ -1,6 +1,7 @@
 "use strict";
 
 const MIN_COMMENTS_LENGTH = 15;
+let successTimeoutId = null;
 
 // Store references once so handlers can reuse them.
 const feedbackForm = document.getElementById("feedback_form");
@@ -263,16 +264,52 @@ function validateComments() {
     return true;
 }
 
+
 /**
- * Prevents navigation and validates every field before showing success.
- * Keeps entered values in place; reset behavior is handled separately.
+ * Cancels any pending success-message removal.
  *
- * @param {SubmitEvent} event
- *     The form submission event.
+ * @returns {void}
+ */
+function cancelSuccessTimeout() {
+    if (successTimeoutId !== null) {
+        clearTimeout(successTimeoutId);
+        successTimeoutId = null;
+    }
+}
+
+
+/**
+ * Clears feedback when the form resets.
+ * The browser's native reset action restores field values.
+ *
+ * @returns {void}
+ */
+function resetForm() {
+    cancelSuccessTimeout();
+
+    resetFieldState(fullNameInput, fullNameError);
+    resetFieldState(emailInput, emailError);
+    resetFieldState(topicSelect, topicError);
+    resetFieldState(commentsInput, commentsError);
+    resetFieldState(websiteInput, websiteError);
+
+    commentsCounter.textContent = `0/${MIN_COMMENTS_LENGTH}`;
+    commentsCounter.classList.remove("is-invalid", "is-valid");
+
+    formStatus.textContent = "";
+}
+
+
+/**
+ * Prevents navigation and validates every field.
+ * On success, resets the form and shows feedback for four seconds.
+ *
+ * @param {SubmitEvent} event The form submission event.
  * @returns {void}
  */
 function handleSubmit(event) {
     event.preventDefault();
+    cancelSuccessTimeout();
 
     // Remove any success message left from a previous submission.
     formStatus.textContent = "";
@@ -306,8 +343,16 @@ function handleSubmit(event) {
 
     const fullName = fullNameInput.value.trim();
 
+    // Triggers our reset handler and the browser's field reset.
+    feedbackForm.reset();
+    
     formStatus.textContent =
         `Thanks for your feedback, ${fullName}!`;
+    
+    successTimeoutId = setTimeout(() => {
+        formStatus.textContent = "";
+        successTimeoutId = null;
+    }, 4000);
 }
 
 // Check text fields when the user leaves them.
@@ -316,6 +361,7 @@ emailInput.addEventListener("blur", validateEmail);
 websiteInput.addEventListener("blur", validateWebsite);
 commentsInput.addEventListener("blur", validateComments);
 feedbackForm.addEventListener("submit", handleSubmit);
+feedbackForm.addEventListener("reset", resetForm);
 
 // Recheck edited fields after their first validation.
 fullNameInput.addEventListener("input", () => {

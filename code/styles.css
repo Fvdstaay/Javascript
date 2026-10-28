@@ -207,35 +207,65 @@ section {
 }
 
 .comments_wrapper {
-    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .comments_wrapper textarea {
     display: block;
-    padding-bottom: 3.5rem;
+    padding-bottom: 12px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 #comments-counter {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 28px;
-
     margin: 0;
-    color: #666666;
+    padding: 8px 12px;
+
+    border: 1px solid var(--color-primary);
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+
     background-color: var(--color-surface);
+    color: #666666;
     font-size: 0.85rem;
     line-height: 1.5;
     text-align: right;
-    pointer-events: none;
 }
 
-#comments-counter.is-invalid {
-    color: var(--color-error);
+.comments_wrapper textarea.is-invalid + #comments-counter {
+    border-color: var(--color-error);
 }
 
-#comments-counter.is-valid {
-    color: var(--color-success);
+.comments_wrapper textarea.is-valid + #comments-counter {
+    border-color: var(--color-success);
+}
+.comments_wrapper textarea,
+.comments_wrapper textarea.is-invalid,
+.comments_wrapper textarea.is-valid {
+    border-bottom: none;
+}
+
+/* Show focus around the textarea and counter together. */
+.comments_wrapper {
+    border-radius: 5px;
+}
+
+.comments_wrapper:focus-within {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 5px;
+}
+
+/* The wrapper supplies the visible focus indicator instead. */
+.comments_wrapper textarea:focus,
+.comments_wrapper textarea:focus-visible {
+    outline: none;
+}
+
+.comments_wrapper textarea.is-invalid + #comments-counter,
+.comments_wrapper textarea.is-valid + #comments-counter {
+    border-width: 2px;
+    border-top: none;
 }
 
 .form-actions {

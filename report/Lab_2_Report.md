@@ -8,7 +8,7 @@ Progress recorded on 28 October 2026
 
 ## Project information
 
-I am extending my Lab 1 portfolio with vanilla JavaScript, targeting Grade 5. The current implementation contains the feedback form structure, supporting CSS, shared JavaScript helpers, and validation for all five fields, including a live comments counter. Submission handling is not yet connected.
+I am extending my Lab 1 portfolio with vanilla JavaScript, targeting Grade 5. The current implementation contains the feedback form structure, supporting CSS, shared JavaScript helpers, and validation for all five fields, including a live comments counter. Submission handling validates all fields and displays personalized success feedback. Successful submission resets the form, and a timer is configured to remove the message after four seconds.
 
 ## Feedback form implementation
 
@@ -36,11 +36,27 @@ Name validation checks the trimmed value for at least two Unicode code points an
 
 ## Comments validation and counter
 
-Comments are validated on input and blur. Every input event also updates the written character count and its red or green minimum-length feedback. Validation requires at least 15 characters and rejects whitespace-only input. The counter and validator share one minimum-length constant.
+Comments are validated on input and blur. Every input event also updates the written character count and its red or green minimum-length feedback. Validation requires at least 15 non-whitespace Unicode code points. The counter uses the same rule and continues counting beyond the minimum. The counter and validator share one minimum-length constant.
 
 ![Feedback form showing field errors and a live comments counter](screenshots/form-field-errors.png)
 
 *Figure 2: Field-validation feedback during editing. The name floris11 contains digits, the supplied email and Website values produce format errors, and the four-character comment is below the 15-character minimum. Coffee and pastries is selected and shown as valid. Errors include written explanations. This captures field feedback, rather than validation triggered by form submission.*
+
+## Submission feedback
+
+The submit handler prevents navigation, runs all five validators, and updates the counter. If any field is invalid, it focuses the first invalid control. Otherwise, it inserts a personalized success message using textContent. Browser validation popups are disabled through JavaScript so the handler can display all field errors together, while the validators still read browser validity properties.
+
+![Invalid submission with errors for all required fields](screenshots/form-invalid-submit.png)
+
+*Figure 3: Submitting an empty form shows written errors for Full Name, Email, Topic, and Comments. Focus returns to Full Name. The empty optional Website field remains neutral.*
+
+![Successful submission with cleared fields and personalized feedback](screenshots/form-success-reset.png)
+
+*Figure 4: After successful submission, the personalized message “Thanks for your feedback, hello!” remains visible while the fields are cleared, the topic placeholder is restored, validation borders return to neutral, and the counter returns to grey 0/15.*
+
+## Reset and message lifecycle
+
+Successful submission captures the name before calling feedbackForm.reset(). The reset event clears field errors, validation classes, aria-invalid attributes, the counter state, and any existing success message. The browser restores the field values. The submit handler then displays the personalized message and schedules its removal after four seconds. Clear uses the same reset event. A stored timer reference allows pending message removal to be cancelled before another submission or reset. Figure 4 shows the reset appearance; the four-second duration requires a separate timed interaction check.
 
 ## Git development
 
