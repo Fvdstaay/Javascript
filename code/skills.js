@@ -127,20 +127,25 @@ function renderSkills(skillsToRender) {
         category.classList.add("skill-category");
         category.textContent = skill.category;
 
-        const proficiencyText = document.createElement("p");
-        proficiencyText.classList.add("skill-proficiency-text");
-        proficiencyText.textContent =
-            `Proficiency: ${skill.proficiency} out of 5`;
-
-        const proficiencyMeter = document.createElement("meter");
-        proficiencyMeter.classList.add("skill-proficiency");
-        proficiencyMeter.min = 1;
-        proficiencyMeter.max = 5;
-        proficiencyMeter.value = skill.proficiency;
-        proficiencyMeter.setAttribute(
+        const proficiencyDots = document.createElement("div");
+        proficiencyDots.classList.add("skill-proficiency");
+        proficiencyDots.setAttribute("role", "img");
+        proficiencyDots.setAttribute(
             "aria-label",
-            `${skill.name} proficiency`
+            `${skill.name} proficiency: ${skill.proficiency} out of 5`
         );
+        
+        for (let level = 1; level <= 5; level++) {
+            const dot = document.createElement("span");
+            dot.classList.add("proficiency-dot");
+            dot.setAttribute("aria-hidden", "true");
+        
+            if (level <= skill.proficiency) {
+                dot.classList.add("is-filled");
+            }
+        
+            proficiencyDots.append(dot);
+        }
 
         const experience = document.createElement("p");
         experience.classList.add("skill-experience");
@@ -158,8 +163,7 @@ function renderSkills(skillsToRender) {
         card.append(
             heading,
             category,
-            proficiencyText,
-            proficiencyMeter,
+            proficiencyDots,
             experience,
             description
         );
