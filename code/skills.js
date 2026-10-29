@@ -107,6 +107,7 @@ const filterButtons = document.querySelectorAll(
 );
 let activeCategory= "all";
 const skillCounter = document.getElementById("skills-counter");
+const sortSelect = document.getElementById("skills-sort");
 
 /**
  * Replaces displayed cards with complete information for each supplied skill.
@@ -197,6 +198,36 @@ function updateSkills() {
     const visibleSkills = skills.filter((skill) => {
         return activeCategory === "all" || skill.category === activeCategory;
     });
+    switch (sortSelect.value) {
+        case "proficiency-desc":
+            visibleSkills.sort((first, second) => {
+                return second.proficiency - first.proficiency;
+            });
+            break;
+        case "proficiency-asc":
+            visibleSkills.sort((first, second) => {
+                return first.proficiency - second.proficiency; 
+            });
+            break;
+
+        case "experience-desc":
+            visibleSkills.sort((first, second) => {
+                return second.yearsExperience - first.yearsExperience;
+            });
+            break;
+        
+        case "experience-asc":
+            visibleSkills.sort((first, second) => {
+                return first.yearsExperience - second.yearsExperience;
+            });
+            break;
+
+        case "name-asc":
+            visibleSkills.sort((first, second) => {
+                return first.name.localeCompare(second.name, "en");
+            });
+            break;
+    }
     renderSkills(visibleSkills);
     skillCounter.textContent =
         `Showing ${visibleSkills.length} of ${skills.length} skills`;
@@ -222,4 +253,6 @@ filterButtons.forEach((button) => {
     });
 });
 
+
+sortSelect.addEventListener("change", updateSkills);
 updateSkills();
