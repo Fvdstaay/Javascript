@@ -405,6 +405,10 @@ footer {
     margin: 0;
     line-height: 1.6;
 }
+#skills-counter {
+    margin: 16px 0 0;
+    line-height: 1.5;
+}
 
 .skill-category {
     display: inline-block;
@@ -439,6 +443,17 @@ footer {
 
 .skill-experience {
     font-size: 0.9rem;
+}
+
+
+.skills-empty {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 24px;
+
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
 }
 
 /* Small screens (700px and below) */

@@ -106,6 +106,7 @@ const filterButtons = document.querySelectorAll(
     "#skills-filter .skill-filter"
 );
 let activeCategory= "all";
+const skillCounter = document.getElementById("skills-counter");
 
 /**
  * Replaces displayed cards with complete information for each supplied skill.
@@ -117,6 +118,13 @@ let activeCategory= "all";
  * @returns {void}
  */
 function renderSkills(skillsToRender) {
+    if(skillsToRender.length === 0) {
+        const message = document.createElement("p");
+        message.classList.add("skills-empty");
+        message.textContent = "No skills in this category";
+        skillsList.replaceChildren(message);
+        return;
+    }
     const fragment = document.createDocumentFragment();
 
     skillsToRender.forEach((skill) => {
@@ -187,9 +195,11 @@ function renderSkills(skillsToRender) {
  */
 function updateSkills() {
     const visibleSkills = skills.filter((skill) => {
-        return activeCategory === "all" || skill.category == activeCategory;
+        return activeCategory === "all" || skill.category === activeCategory;
     });
     renderSkills(visibleSkills);
+    skillCounter.textContent =
+        `Showing ${visibleSkills.length} of ${skills.length} skills`;
 }
 
 
