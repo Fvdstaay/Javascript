@@ -128,8 +128,52 @@
                 and development tools experience.
             </p>
         
-            <div id="skills-controls" class="skills-controls"></div>
-        
+            <div id="skills-controls" class="skills-controls">
+                <div 
+                    id="skills-filter"
+                    class="skills-filter"
+                    role="group"
+                    aria-label="Filter skills by category"
+                >
+                    <button 
+                        type="button"
+                        class="skill-filter is-active"
+                        data-category="all"
+                        aria-pressed="true"
+                    >
+                        All Skills
+                    </button>
+
+                    <button 
+                        type="button"
+                        class="skill-filter"
+                        data-category="Web Development"
+                        aria-pressed="false"
+                    >
+                        Web Development
+                    </button>
+
+                    <button
+                        type="button"
+                        class="skill-filter"
+                        data-category="Programming"
+                        aria-pressed="false"
+                    >
+                        Programming
+                    </button>
+                
+                    <button
+                        type="button"
+                        class="skill-filter"
+                        data-category="Development Tools"
+                        aria-pressed="false"
+                    >
+                        Development Tools
+                    </button>
+
+                </div>
+            </div>
+
             <p
                 id="skills-counter"
                 role="status"

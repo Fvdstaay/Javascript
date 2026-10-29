@@ -330,6 +330,45 @@ footer {
     color: var(--color-surface);
 }
 
+/* Sorting style */
+.skills-controls {
+    margin-top: 24px;
+}
+
+.skills-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.skill-filter {
+    padding: 10px 16px;
+    min-height: 44px;
+
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+
+    font: inherit;
+    cursor: pointer;
+}
+
+.skill-filter:hover {
+    background-color: var(--color-row-background);
+}
+
+.skill-filter.is-active {
+    background-color: var(--color-primary);
+    color: var(--color-surface);
+    font-weight: bold;
+}
+
+.skill-filter:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+}
+
 /* Skills showcase */
 .skills-grid {
     display: grid;

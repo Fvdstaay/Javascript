@@ -4,7 +4,7 @@ Floris van der Staaij| DA558A | Target Grade 5
 
 Repository: https://github.com/Fvdstaay/Javascript
 
-Progress recorded on 28 October 2026
+Progress recorded on 29 October 2026
 
 ## Project information
 
@@ -60,4 +60,8 @@ Successful submission captures the name before calling feedbackForm.reset(). The
 
 ## Git development
 
-The development history records separate changes for the foundation (3b1405a), feedback form structure (8fec860), and form styling (a097ae7). This provides traceable steps from the static portfolio toward interactive feedback.
+I developed the feedback form in separate steps: portfolio structure fixes (3b1405a), form markup (8fec860), and interaction styling (a097ae7). I then added documented feedback helpers (66bb915), field validation (4945431), and the live comments counter (67c3b78). Keeping these changes separate makes it possible to follow how the form progressed from HTML structure to interactive feedback.
+
+Submission handling and the inset counter were added in 1100171. During testing, long comments revealed that the counter could cover text, and Clear left feedback behind. Commit d496c3f completed the reset and timer behavior and moved the counter into a separate footer to prevent overlap. This sequence records a concrete refinement prompted by testing rather than only the finished interface. The report began in its own commit, 325cf64, so documentation developed alongside the implementation.
+
+For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category filtering and sorting are not yet implemented at this point in the history.
