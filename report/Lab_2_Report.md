@@ -84,7 +84,20 @@ When the supplied array is empty, the renderer replaces the cards with “No ski
 
 *Figure 6: Programming is selected together with “Proficiency: highest to lowest”, and the counter shows “Showing 4 of 10 skills”. Python and Java, each rated four out of five, appear before C#, rated two out of five. The fourth result, C++, begins below the first row and is partially visible in this capture.*
 
-The code includes an alphabetical comparison using `localeCompare()`, but the current HTML option value is `Name` while the JavaScript case expects `name-asc`. Those values need to match before alphabetical sorting can be treated as working. Figure 6 provides evidence for combined category filtering and descending proficiency; it does not verify every sort or keyboard interaction.
+The alphabetical option now uses `name-asc`, matching its JavaScript case and the `localeCompare()` comparison. Figure 6 provides browser evidence for combined category filtering and descending proficiency.
+
+## Filter and sort verification
+
+On 29 October 2026, an automated code-level check executed the actual `skills.js` in Node with a lightweight simulated DOM and controls derived from the current HTML. All 24 category and sort combinations passed. Each combination was checked for card membership, ordering, stable ordering for equal values, result count, selected-button styling, `aria-pressed`, five-dot ratings, and unchanged source data. A second pass changed categories under each selected sort and verified that the sort was preserved. Empty-state feedback also passed.
+
+| Category | Original | Proficiency descending | Proficiency ascending | Experience descending | Experience ascending | Name A to Z |
+|---|---|---|---|---|---|---|
+| All Skills | Pass | Pass | Pass | Pass | Pass | Pass |
+| Web Development | Pass | Pass | Pass | Pass | Pass | Pass |
+| Programming | Pass | Pass | Pass | Pass | Pass | Pass |
+| Development Tools | Pass | Pass | Pass | Pass | Pass | Pass |
+
+These checks verify JavaScript behavior in a simulated DOM. They do not verify real-browser rendering, native keyboard behavior, screen-reader announcements, responsive layout, or the browser console. Those require separate browser checks.
 
 ## Git development
 
@@ -92,4 +105,4 @@ I developed the feedback form in separate steps: portfolio structure fixes (3b14
 
 Submission handling and the inset counter were added in 1100171. During testing, long comments revealed that the counter could cover text, and Clear left feedback behind. Commit d496c3f completed the reset and timer behavior and moved the counter into a separate footer to prevent overlap. This sequence records a concrete refinement prompted by testing rather than only the finished interface. The report began in its own commit, 325cf64, so documentation developed alongside the implementation.
 
-For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category controls were added in d08f215, filtering and synchronized button state in 392014e, and result counts with empty-state feedback in e1af1de. The sort selector was added in c9a54ad and sorting logic in 7c2ffce, including both numeric directions. The remaining alphabetical option-value mismatch is identified above.
+For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category controls were added in d08f215, filtering and synchronized button state in 392014e, and result counts with empty-state feedback in e1af1de. The sort selector was added in c9a54ad and sorting logic in 7c2ffce, including both numeric directions. The alphabetical option-value mismatch was subsequently corrected in the working files.
