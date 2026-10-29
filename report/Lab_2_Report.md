@@ -70,7 +70,7 @@ Each filter button stores its category in `data-category`. Clicking a button upd
 
 The All Skills option needs an explicit condition: `activeCategory === "all" || skill.category === activeCategory`. Initializing the state to the string `"all"` does not give it special filtering behavior. Without the first condition, no category matches and the result is empty. This was an implementation issue discussed and corrected while developing filtering.
 
-When the supplied array is empty, the renderer replaces the cards with “No skills in this category”. The total count is derived from the source array, while the visible count comes from the filtered array. Figure 5 shows the filtered desktop layout and displayed result count. Mobile layout and keyboard activation still need recorded interaction checks.
+When the supplied array is empty, the renderer replaces the cards with “No skills in this category”. The total count is derived from the source array, while the visible count comes from the filtered array. Figure 5 shows the filtered desktop layout and displayed result count. Figure 7 additionally documents the narrow layout. Keyboard operation was confirmed in the browser on 29 October 2026.
 
 ![Web Development filter selected with three matching skill cards](screenshots/skills-web-development.png)
 
@@ -98,6 +98,14 @@ On 29 October 2026, an automated code-level check executed the actual `skills.js
 | Development Tools | Pass | Pass | Pass | Pass | Pass | Pass |
 
 These checks verify JavaScript behavior in a simulated DOM. They do not verify real-browser rendering, native keyboard behavior, screen-reader announcements, responsive layout, or the browser console. Those require separate browser checks.
+
+## Responsive layout and motion preferences
+
+![Narrow skills layout with wrapped filters and a single-column card](screenshots/skills-mobile.png)
+
+*Figure 7: In the supplied narrow-viewport capture, the category buttons wrap across rows and the sort control appears beneath them. Development Tools is selected with alphabetical sorting, the counter shows three of ten results, and the first card is Browser Developer Tools. The visible card text wraps within its boundaries. The exact viewport width was not recorded.*
+
+The stylesheet defines a short card entrance animation and filter color transitions. A `prefers-reduced-motion: reduce` query disables the card animation and the form and filter transitions. The screenshot documents the narrow layout. On 29 October 2026, I confirmed that reduced-motion behavior works in the browser. On the same date, I also confirmed that the skills controls work using the keyboard.
 
 ## Git development
 
