@@ -76,10 +76,20 @@ When the supplied array is empty, the renderer replaces the cards with “No ski
 
 *Figure 5: Selecting Web Development displays HTML, CSS, and JavaScript and updates the counter to “Showing 3 of 10 skills”. The active button has distinct styling and a visible focus outline. Each card shows its category, proficiency dots, experience, and description. This screenshot documents category filtering before sorting is added.*
 
+## Combined filtering and sorting
+
+`updateSkills()` first filters the source array and then sorts the resulting array according to the selector before rendering the cards and updating the count. Numeric comparison functions support highest-first and lowest-first proficiency and experience. Because `filter()` returns a new array, sorting does not change the original data order. The Original order option skips sorting. Changing the category uses the currently selected sort, and changing the sort retains the current category.
+
+![Programming filter combined with descending proficiency sorting](screenshots/skills-filter-sort.png)
+
+*Figure 6: Programming is selected together with “Proficiency: highest to lowest”, and the counter shows “Showing 4 of 10 skills”. Python and Java, each rated four out of five, appear before C#, rated two out of five. The fourth result, C++, begins below the first row and is partially visible in this capture.*
+
+The code includes an alphabetical comparison using `localeCompare()`, but the current HTML option value is `Name` while the JavaScript case expects `name-asc`. Those values need to match before alphabetical sorting can be treated as working. Figure 6 provides evidence for combined category filtering and descending proficiency; it does not verify every sort or keyboard interaction.
+
 ## Git development
 
 I developed the feedback form in separate steps: portfolio structure fixes (3b1405a), form markup (8fec860), and interaction styling (a097ae7). I then added documented feedback helpers (66bb915), field validation (4945431), and the live comments counter (67c3b78). Keeping these changes separate makes it possible to follow how the form progressed from HTML structure to interactive feedback.
 
 Submission handling and the inset counter were added in 1100171. During testing, long comments revealed that the counter could cover text, and Clear left feedback behind. Commit d496c3f completed the reset and timer behavior and moved the counter into a separate footer to prevent overlap. This sequence records a concrete refinement prompted by testing rather than only the finished interface. The report began in its own commit, 325cf64, so documentation developed alongside the implementation.
 
-For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category controls were added in d08f215, filtering and synchronized button state in 392014e, and result counts with empty-state feedback in e1af1de. Sorting is not yet implemented.
+For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category controls were added in d08f215, filtering and synchronized button state in 392014e, and result counts with empty-state feedback in e1af1de. The sort selector was added in c9a54ad and sorting logic in 7c2ffce, including both numeric directions. The remaining alphabetical option-value mismatch is identified above.

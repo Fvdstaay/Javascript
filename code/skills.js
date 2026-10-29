@@ -190,8 +190,10 @@ function renderSkills(skillsToRender) {
 
 
 /**
- * Renders skills again based on selected category
- * 
+ * Filters skills, applies the selected order, and updates cards and count.
+ * Supports numeric sorting in both directions and alphabetical sorting.
+ * Leaves the source array unchanged.
+ *
  * @returns {void}
  */
 function updateSkills() {
@@ -204,6 +206,7 @@ function updateSkills() {
                 return second.proficiency - first.proficiency;
             });
             break;
+        
         case "proficiency-asc":
             visibleSkills.sort((first, second) => {
                 return first.proficiency - second.proficiency; 
