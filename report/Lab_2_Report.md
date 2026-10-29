@@ -8,7 +8,7 @@ Progress recorded on 29 October 2026
 
 ## Project information
 
-I am extending my Lab 1 portfolio with vanilla JavaScript, targeting Grade 5. The current implementation contains the feedback form structure, supporting CSS, shared JavaScript helpers, and validation for all five fields, including a live comments counter. Submission handling validates all fields and displays personalized success feedback. Successful submission resets the form, and a timer is configured to remove the message after four seconds.
+I am extending my Lab 1 portfolio with vanilla JavaScript, targeting Grade 5. The current implementation contains the feedback form structure, supporting CSS, shared JavaScript helpers, and validation for all five fields, including a live comments counter. Submission handling validates all fields and displays personalized success feedback. Successful submission resets the form, and a timer is configured to remove the message after four seconds. The skills showcase now renders ten skills from data, supports category filtering, and displays a result count and empty-state feedback.
 
 ## Feedback form implementation
 
@@ -58,10 +58,28 @@ The submit handler prevents navigation, runs all five validators, and updates th
 
 Successful submission captures the name before calling feedbackForm.reset(). The reset event clears field errors, validation classes, aria-invalid attributes, the counter state, and any existing success message. The browser restores the field values. The submit handler then displays the personalized message and schedules its removal after four seconds. Clear uses the same reset event. A stored timer reference allows pending message removal to be cancelled before another submission or reset. Figure 4 shows the reset appearance; the four-second duration requires a separate timed interaction check.
 
+## Skills data and rendering
+
+The skills array in `code/skills.js` contains ten objects across Web Development, Programming, and Development Tools. Each object has a unique numeric `id`, a `name`, a `category`, a proficiency rating from 1 to 5, nonnegative `yearsExperience`, and a `description`. These objects are the source of the displayed content rather than manually written HTML cards.
+
+`renderSkills()` receives an array and creates an article for each skill, including a heading, category badge, five proficiency dots, experience, and description. It assembles the cards in a document fragment and replaces the container's children, so repeated rendering does not duplicate cards. The dot group exposes the skill name and rating through an accessible label; individual dots are decorative. CSS lays out the cards in a responsive grid.
+
+## Category filtering and result feedback
+
+Each filter button stores its category in `data-category`. Clicking a button updates `activeCategory`, synchronizes the active class and `aria-pressed` on all buttons, and calls `updateSkills()`. That function uses `filter()` to create a derived array, passes it to the renderer, and updates the status text to “Showing X of Y skills”. The original array is not modified. Native buttons support keyboard activation without separate key handlers.
+
+The All Skills option needs an explicit condition: `activeCategory === "all" || skill.category === activeCategory`. Initializing the state to the string `"all"` does not give it special filtering behavior. Without the first condition, no category matches and the result is empty. This was an implementation issue discussed and corrected while developing filtering.
+
+When the supplied array is empty, the renderer replaces the cards with “No skills in this category”. The total count is derived from the source array, while the visible count comes from the filtered array. Figure 5 shows the filtered desktop layout and displayed result count. Mobile layout and keyboard activation still need recorded interaction checks.
+
+![Web Development filter selected with three matching skill cards](screenshots/skills-web-development.png)
+
+*Figure 5: Selecting Web Development displays HTML, CSS, and JavaScript and updates the counter to “Showing 3 of 10 skills”. The active button has distinct styling and a visible focus outline. Each card shows its category, proficiency dots, experience, and description. This screenshot documents category filtering before sorting is added.*
+
 ## Git development
 
 I developed the feedback form in separate steps: portfolio structure fixes (3b1405a), form markup (8fec860), and interaction styling (a097ae7). I then added documented feedback helpers (66bb915), field validation (4945431), and the live comments counter (67c3b78). Keeping these changes separate makes it possible to follow how the form progressed from HTML structure to interactive feedback.
 
 Submission handling and the inset counter were added in 1100171. During testing, long comments revealed that the counter could cover text, and Clear left feedback behind. Commit d496c3f completed the reset and timer behavior and moved the counter into a separate footer to prevent overlap. This sequence records a concrete refinement prompted by testing rather than only the finished interface. The report began in its own commit, 325cf64, so documentation developed alongside the implementation.
 
-For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category filtering and sorting are not yet implemented at this point in the history.
+For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category controls were added in d08f215, filtering and synchronized button state in 392014e, and result counts with empty-state feedback in e1af1de. Sorting is not yet implemented.
