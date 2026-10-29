@@ -330,7 +330,7 @@ footer {
     color: var(--color-surface);
 }
 
-/* Sorting style */
+/* filter style */
 .skills-controls {
     margin-top: 24px;
 }
@@ -365,6 +365,38 @@ footer {
 }
 
 .skill-filter:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+}
+
+/* skills sort */
+.skills-sort {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.skills-sort label {
+    font-weight: bold;
+}
+
+.skills-sort select {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+
+    font: inherit;
+}
+
+.skills-sort select:focus-visible {
     outline: 3px solid var(--color-focus);
     outline-offset: 3px;
 }
