@@ -22,53 +22,54 @@
         </nav>
     </header>
 
-    <main>
-        <aside
-            id="display=settings"
-            class="display-settings"
-            aria-labelledby="display-settings-heading"
-        >
-            <h2 id="display-settings-heading"> Display settings</h2>
-            <fieldset class="text-size-controls">
-                <legend>Text size</legend>
-                <button
-                    type="button"
-                    class="text-size-button"
-                    data-textsize="small"
-                    aria-pressed="false"
-                >
-                Small
-                </button>
-
-                <button
-                    type="button"
-                    class="text-size-button"
-                    data-textsize="medium"
-                    aria-pressed="false"
-                >
-                Medium
-                </button>
-
-                <button
-                    type="button"
-                    class="text-size-button"
-                    data-textsize="large"
-                    aria-pressed="false"
-                >
-                Large
-                </button>
-            </fieldset>
+    <aside
+        id="display-settings"
+        class="display-settings"
+        aria-labelledby="display-settings-heading"
+    >
+        <h2 id="display-settings-heading"> Display settings</h2>
+        <fieldset class="text-size-controls">
+            <legend>Text size</legend>
+            <button
+                type="button"
+                class="text-size-button"
+                data-textsize="small"
+                aria-pressed="false"
+            >
+            Small
+            </button>
 
             <button
-            id="contrast-toggle"
-            type="toggle"
-            aria-pressed="false"
+                type="button"
+                class="text-size-button"
+                data-textsize="medium"
+                aria-pressed="true"
             >
-            High contrast
+            Medium
             </button>
-        </aside>
 
-        
+            <button
+                type="button"
+                class="text-size-button"
+                data-textsize="large"
+                aria-pressed="false"
+            >
+            Large
+            </button>
+        </fieldset>
+
+        <button
+        id="contrast-toggle"
+        class="toggle"
+        type="button"
+        aria-pressed="false"
+        >
+        High contrast
+        </button>
+    </aside>
+    <main>
+
+
         <section class="landing">
             <div class="intro">
                 <h2>Welcome to my portfolio!</h2>

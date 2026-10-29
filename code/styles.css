@@ -435,7 +435,7 @@ footer {
         opacity: 0;
         transform: translateY(4px);
     }
-    
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -500,6 +500,83 @@ footer {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 10px;
+}
+
+/* Display settings */
+.display-settings {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+
+    width: 18rem;
+    max-width: 100%;
+    margin: 16px 0 0 auto;
+    padding: 16px;
+
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+}
+
+.display-settings:focus-within {
+    width: 28rem;
+}
+
+.display-settings h2 {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.text-size-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+    margin: 0;
+    padding: 8px;
+
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+}
+
+.text-size-controls legend {
+    padding: 0 6px;
+    font-weight: bold;
+}
+
+.text-size-button,
+.display-settings .toggle {
+    min-height: 44px;
+    padding: 10px 16px;
+
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+
+    font: inherit;
+    cursor: pointer;
+}
+
+.text-size-button:hover,
+.display-settings .toggle:hover {
+    background-color: var(--color-row-background);
+}
+
+.text-size-button[aria-pressed="true"],
+.display-settings .toggle[aria-pressed="true"] {
+    background-color: var(--color-primary);
+    color: var(--color-surface);
+    font-weight: bold;
+}
+
+.text-size-button:focus-visible,
+.display-settings .toggle:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
 }
 
 /* Small screens (700px and below) */
