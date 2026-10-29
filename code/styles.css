@@ -352,6 +352,8 @@ footer {
 
     font: inherit;
     cursor: pointer;
+    transition: background-color 0.2s ease,
+            color 0.2s ease;
 }
 
 .skill-filter:hover {
@@ -426,6 +428,18 @@ footer {
     box-shadow: 0 4px 8px var(--color-card-shadow);
 
     overflow-wrap: anywhere;
+    animation: skill-card-enter 0.2s ease-out;
+    @keyframes skill-card-enter {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 }
 
 .skill-card h3 {
@@ -520,9 +534,14 @@ footer {
 
 }
 @media (prefers-reduced-motion: reduce) {
-.form_field input,
-.form_field select,
-.form_field textarea {
-    transition: none;
-}
+    .form_field input,
+    .form_field select,
+    .form_field textarea,
+    .skill-filter {
+        transition: none;
+    }
+
+    .skill-card {
+        animation: none;
+    }
 }
