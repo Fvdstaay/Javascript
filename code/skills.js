@@ -102,6 +102,10 @@ const skills = [
     }
 ];
 const skillsList = document.getElementById("skills-list");
+const filterButtons = document.querySelectorAll(
+    "#skills-filter .skill-filter"
+);
+let activeCategory= "all";
 
 /**
  * Replaces displayed cards with complete information for each supplied skill.
@@ -174,4 +178,38 @@ function renderSkills(skillsToRender) {
     skillsList.replaceChildren(fragment);
 }
 
-renderSkills(skills);
+
+
+/**
+ * Renders skills again based on selected category
+ * 
+ * @returns {void}
+ */
+function updateSkills() {
+    const visibleSkills = skills.filter((skill) => {
+        return activeCategory === "all" || skill.category == activeCategory;
+    });
+    renderSkills(visibleSkills);
+}
+
+
+filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        activeCategory = button.dataset.category;
+
+        filterButtons.forEach((filterButton) => {
+            const isActive =
+                filterButton.dataset.category === activeCategory;
+
+            filterButton.classList.toggle("is-active", isActive);
+            filterButton.setAttribute(
+                "aria-pressed",
+                String(isActive)
+            );
+        });
+
+        updateSkills();
+    });
+});
+
+updateSkills();
