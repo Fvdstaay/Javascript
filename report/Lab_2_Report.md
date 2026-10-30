@@ -4,7 +4,7 @@ Floris van der Staaij| DA558A | Target Grade 5
 
 Repository: https://github.com/Fvdstaay/Javascript
 
-Progress recorded on 29 October 2026
+Progress recorded on 30 October 2026
 
 ## Project information
 
@@ -107,6 +107,18 @@ These checks verify JavaScript behavior in a simulated DOM. They do not verify r
 
 The stylesheet defines a short card entrance animation and filter color transitions. A `prefers-reduced-motion: reduce` query disables the card animation and the form and filter transitions. The screenshot documents the narrow layout. On 29 October 2026, I confirmed that reduced-motion behavior works in the browser. On the same date, I also confirmed that the skills controls work using the keyboard.
 
+## Display settings
+
+`code/display-settings.js` defines accepted text-size and contrast values, frozen defaults of medium text and normal contrast, and a separate mutable settings object. `applySettings()` removes previous setting classes from the HTML element, adds the current classes, and synchronizes the controls through `aria-pressed`. Removing old classes prevents competing settings from remaining active together.
+
+Text-size button activation reads `data-textsize`, checks that the value is accepted, updates state, and calls `applySettings()`. The stylesheet maps Small, Medium, and Large to root font sizes of 14px, 16px, and 20px. The contrast button switches state between normal and high; the contrast class overrides shared color variables and component rules. These settings currently last for the page session and are not yet saved across reloads.
+
+![Large text and high contrast with active display controls](screenshots/display-large-high-contrast.png)
+
+*Figure 8: Large text and High contrast are selected. The page has a black background, light text, and a yellow focus outline around Large. The header in this captured version uses black text on a white background. This is an intermediate display-panel design before the planned floating control refinement.*
+
+The screenshot and reported working controls provide evidence of the displayed combination. They do not establish that all six combinations, mobile layouts, or reload persistence have been verified. A comparable default-view capture will complete the report's display comparison.
+
 ## Git development
 
 I developed the feedback form in separate steps: portfolio structure fixes (3b1405a), form markup (8fec860), and interaction styling (a097ae7). I then added documented feedback helpers (66bb915), field validation (4945431), and the live comments counter (67c3b78). Keeping these changes separate makes it possible to follow how the form progressed from HTML structure to interactive feedback.
@@ -114,3 +126,5 @@ I developed the feedback form in separate steps: portfolio structure fixes (3b14
 Submission handling and the inset counter were added in 1100171. During testing, long comments revealed that the counter could cover text, and Clear left feedback behind. Commit d496c3f completed the reset and timer behavior and moved the counter into a separate footer to prevent overlap. This sequence records a concrete refinement prompted by testing rather than only the finished interface. The report began in its own commit, 325cf64, so documentation developed alongside the implementation.
 
 For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category controls were added in d08f215, filtering and synchronized button state in 392014e, and result counts with empty-state feedback in e1af1de. The sort selector was added in c9a54ad and sorting logic in 7c2ffce, including both numeric directions. The alphabetical option-value mismatch was subsequently corrected in the working files.
+
+The display controls were styled in 88c4280, their state and defaults were introduced in 7206a79, class application and pressed-state synchronization in ca3e3b3, and text-size interaction in 2164c0f. High-contrast behavior is present in the current working code. During development, an unintended recursive call in applySettings() caused a maximum-call-stack error; moving the initial call outside the function and correcting the contrast class spelling resolved the source issues.

@@ -35,6 +35,24 @@ html.text-size-large {
     font-size: 20px;
 }
 
+html.contrast-high {
+    --color-page-background: #000000;
+    --color-primary: #ffffff;
+    --color-surface: #000000;
+    --color-accent: #ffff00;
+    --color-border: #ffffff;
+    --color-card-shadow: transparent;
+    --color-table-shadow: transparent;
+    --color-row-background: #222222;
+    --color-row-hover: #333333;
+    --color-beginner-background: #222222;
+    --color-error: #ff9999;
+    --color-success: #99ff99;
+    --color-focus: #ffff00;
+    --color-dot-empty: #000000;
+    --color-dot-border: #ffffff;
+}
+
 body {
     margin: 0;
 }

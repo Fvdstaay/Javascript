@@ -98,9 +98,24 @@ function handleTextSizeChange(event) {
     applySettings();
 }
 
+
+/**
+ * Switches between normal and high contrast and applies the settings.
+ *
+ * @returns {void}
+ */
+function handleContrastToggle() {
+    displaySettings.contrast =
+        displaySettings.contrast === "normal" ? "high" : "normal";
+
+    applySettings();
+}
+
 /** initialises listeners for the textsize buttons */
 textSizeButtons.forEach((button) => {
     button.addEventListener("click", handleTextSizeChange);
 });
+
+contrastToggle.addEventListener("click", handleContrastToggle);
 
 applySettings();
