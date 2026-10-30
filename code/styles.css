@@ -564,6 +564,7 @@ footer {
 .display-settings[hidden] {
     display: none;
 }
+
 .display-launcher {
     position: fixed;
     right: 16px;
@@ -582,10 +583,24 @@ footer {
     border-radius: 24px;
     font: inherit;
     cursor: pointer;
+
+    justify-content: center;
+    white-space: nowrap;
 }
 
-.display-launcher svg {
-    flex-shrink: 0;
+.display-icon,
+.display-icon object {
+    display: block;
+    width: 5em;
+    height: 2em;
+    font: inherit;
+    line-height: 2;
+    text-align: center;
+    pointer-events: none;
+}
+
+html.contrast-high .display-icon {
+    filter: invert(1);
 }
 
 .display-panel-heading {
