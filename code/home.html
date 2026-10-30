@@ -23,12 +23,37 @@
         </nav>
     </header>
 
+    <button
+        id="display-launcher"
+        class="display-launcher"
+        type="button"
+        aria-expanded="false"
+        aria-controls="display-settings"
+    >
+        <object data="code/noun_displaysettings_3922226.svg" type="image/svg+xml">
+          <img src="code/noun_displaysettings_3922226_@700.png" />
+        </object>
+        <span>Display</span>
+    </button>
+
     <aside
         id="display-settings"
         class="display-settings"
         aria-labelledby="display-settings-heading"
+        hidden
     >
-        <h2 id="display-settings-heading"> Display settings</h2>
+        <div class="display-panel-heading">
+            <h2 id="display-settings-heading">Display settings</h2>
+
+            <button
+                id="display-close"
+                class="display-close"
+                type="button"
+                aria-label="Close display settings"
+            >
+                <span aria-hidden="true">x</span>
+            </button>
+        </div>
         <fieldset class="text-size-controls">
             <legend>Text size</legend>
             <button
@@ -60,12 +85,13 @@
         </fieldset>
 
         <button
-        id="contrast-toggle"
-        class="toggle"
-        type="button"
-        aria-pressed="false"
+            id="contrast-toggle"
+            class="toggle"
+            type="button"
+            aria-pressed="false"
         >
-        High contrast
+            <span>High contrast</span>
+            <span class="toggle-track" aria-hidden="true"></span>
         </button>
     </aside>
     <main>

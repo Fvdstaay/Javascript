@@ -185,6 +185,7 @@ section {
 .required-marker {
     color: var(--color-error);
 }
+
 .form_field input,
 .form_field select,
 .form_field textarea {
@@ -272,6 +273,7 @@ section {
 .comments_wrapper textarea.is-valid + #comments-counter {
     border-color: var(--color-success);
 }
+
 .comments_wrapper textarea,
 .comments_wrapper textarea.is-invalid,
 .comments_wrapper textarea.is-valid {
@@ -535,29 +537,85 @@ footer {
 /* Display settings */
 .display-settings {
     box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
+    position: fixed;
+    right: 16px;
+    bottom: 88px;
+    z-index: 21;
 
-    width: 18rem;
-    max-width: 100%;
-    margin: 16px 0 0 auto;
-    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+
+    width: 22rem;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100dvh - 120px);
+    overflow-y: auto;
+    margin: 0;
+    padding: 20px;
 
     background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px var(--color-card-shadow);
 }
 
-.display-settings:focus-within {
-    width: 28rem;
+.display-settings[hidden] {
+    display: none;
+}
+.display-launcher {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 22;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 10px 16px;
+
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 24px;
+    font: inherit;
+    cursor: pointer;
 }
 
-.display-settings h2 {
-    flex-basis: 100%;
+.display-launcher svg {
+    flex-shrink: 0;
+}
+
+.display-panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.display-panel-heading h2 {
+    flex-basis: auto;
     margin: 0;
-    font-size: 1rem;
+}
+
+.display-close {
+    min-width: 44px;
+    min-height: 44px;
+    border: 1px solid var(--color-primary);
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    font: inherit;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.display-launcher:focus-visible,
+.display-close:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
 }
 
 .text-size-controls {
@@ -607,6 +665,51 @@ footer {
 .display-settings .toggle:focus-visible {
     outline: 3px solid var(--color-focus);
     outline-offset: 3px;
+}
+
+.display-settings .toggle,
+.display-settings .toggle[aria-pressed="true"] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    border-radius: 12px;
+    font-weight: normal;
+}
+
+.toggle-track {
+    position: relative;
+    flex-shrink: 0;
+    width: 48px;
+    height: 26px;
+
+    background-color: var(--color-row-background);
+    border: 2px solid var(--color-primary);
+    border-radius: 20px;
+}
+
+.toggle-track::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+
+    background-color: var(--color-primary);
+    border-radius: 50%;
+}
+
+.toggle[aria-pressed="true"] .toggle-track {
+    background-color: var(--color-primary);
+}
+
+.toggle[aria-pressed="true"] .toggle-track::after {
+    transform: translateX(22px);
+    background-color: var(--color-surface);
 }
 
 /* Small screens (700px and below) */

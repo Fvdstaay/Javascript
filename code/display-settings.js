@@ -46,8 +46,12 @@ const displaySettings = {
 const textSizeButtons = document.querySelectorAll(
     "#display-settings .text-size-button"
 );
+
 const contrastToggle = document.getElementById("contrast-toggle");
 const pageRoot = document.documentElement;
+const displayPanel = document.getElementById("display-settings");
+const displayLauncher = document.getElementById("display-launcher");
+const displayClose = document.getElementById("display-close");
 
 
 /**
@@ -111,11 +115,47 @@ function handleContrastToggle() {
     applySettings();
 }
 
+/**
+ * Opens or closes the display panel and places keyboard focus.
+ *
+ * @param {boolean} isOpen Whether the panel should be visible.
+ * @returns {void}
+ */
+function setDisplayPanelOpen(isOpen) {
+    displayPanel.hidden = !isOpen;
+    displayLauncher.setAttribute("aria-expanded", String(isOpen));
+
+    if (isOpen) {
+        const selectedButton = Array.from(textSizeButtons).find(
+            (button) => button.getAttribute("aria-pressed") === "true"
+        );
+
+        (selectedButton ?? displayClose).focus();
+    } else {
+        displayLauncher.focus();
+    }
+}
+
 /** initialises listeners for the textsize buttons */
 textSizeButtons.forEach((button) => {
     button.addEventListener("click", handleTextSizeChange);
 });
 
 contrastToggle.addEventListener("click", handleContrastToggle);
+
+displayLauncher.addEventListener("click", () => {
+    setDisplayPanelOpen(displayPanel.hidden);
+});
+
+displayClose.addEventListener("click", () => {
+    setDisplayPanelOpen(false);
+});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !displayPanel.hidden) {
+        event.preventDefault();
+        setDisplayPanelOpen(false);
+    }
+});
 
 applySettings();
