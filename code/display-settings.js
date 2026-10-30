@@ -52,6 +52,7 @@ const pageRoot = document.documentElement;
 const displayPanel = document.getElementById("display-settings");
 const displayLauncher = document.getElementById("display-launcher");
 const displayClose = document.getElementById("display-close");
+const DISPLAY_STORAGE_KEY = "portfolio-display-settings";
 
 
 /**
@@ -100,6 +101,7 @@ function handleTextSizeChange(event) {
 
     displaySettings.textSize = selectedSize;
     applySettings();
+    saveDisplaySettings();
 }
 
 
@@ -113,6 +115,7 @@ function handleContrastToggle() {
         displaySettings.contrast === "normal" ? "high" : "normal";
 
     applySettings();
+    saveDisplaySettings();
 }
 
 /**
@@ -158,4 +161,15 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+
+function saveDisplaySettings() {
+    try {
+        localStorage.setItem(
+            DISPLAY_STORAGE_KEY,
+            JSON.stringify(displaySettings)
+        );
+    } catch {
+        return false;
+    }
+}
 applySettings();

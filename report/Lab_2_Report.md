@@ -119,6 +119,16 @@ Text-size button activation reads `data-textsize`, checks that the value is acce
 
 The screenshot and reported working controls provide evidence of the displayed combination. They do not establish that all six combinations, mobile layouts, or reload persistence have been verified. A comparable default-view capture will complete the report's display comparison.
 
+## Floating display controls
+
+The display panel now opens from a fixed monitor-and-gear launcher instead of occupying space above the page introduction. The launcher exposes `aria-expanded` and identifies the controlled panel. `setDisplayPanelOpen()` changes the panel's hidden state and moves focus to the selected text-size button when opening. Closing through the close button or Escape returns focus to the launcher. The panel is nonmodal, so the rest of the page remains available. The contrast control retains toggle-button semantics through `aria-pressed` while a decorative track and thumb provide a switch appearance.
+
+![Floating display panel over the skills showcase in large text and high contrast](screenshots/display-floating-high-contrast.png)
+
+*Figure 9: The floating display panel is open over the skills section with Large selected, High contrast enabled, and a yellow focus indicator. The monitor-and-gear launcher remains visible at the bottom right. The skills counter shows ten of ten results, and the visible cards retain readable text and proficiency dots. The panel overlays part of the page; this capture does not establish mobile or keyboard test results.*
+
+The launcher uses an SVG icon with a PNG fallback and text if both images are unavailable. While implementing this, incorrect relative paths and misspelled filenames caused image-loading failures, and fixed icon dimensions clipped the fallback text. The icon references and fallback sizing were refined during the interface work.
+
 ## Git development
 
 I developed the feedback form in separate steps: portfolio structure fixes (3b1405a), form markup (8fec860), and interaction styling (a097ae7). I then added documented feedback helpers (66bb915), field validation (4945431), and the live comments counter (67c3b78). Keeping these changes separate makes it possible to follow how the form progressed from HTML structure to interactive feedback.
@@ -128,3 +138,5 @@ Submission handling and the inset counter were added in 1100171. During testing,
 For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category controls were added in d08f215, filtering and synchronized button state in 392014e, and result counts with empty-state feedback in e1af1de. The sort selector was added in c9a54ad and sorting logic in 7c2ffce, including both numeric directions. The alphabetical option-value mismatch was subsequently corrected in the working files.
 
 The display controls were styled in 88c4280, their state and defaults were introduced in 7206a79, class application and pressed-state synchronization in ca3e3b3, and text-size interaction in 2164c0f. High-contrast behavior is present in the current working code. During development, an unintended recursive call in applySettings() caused a maximum-call-stack error; moving the initial call outside the function and correcting the contrast class spelling resolved the source issues.
+
+The floating panel and its opening and closing behavior were recorded in 0cca2f7, followed by the launcher and switch presentation refinements in 4681bf7. These changes keep display controls available without reserving space in the normal page layout.
