@@ -50,7 +50,10 @@ const contrastToggle = document.getElementById("contrast-toggle");
 const pageRoot = document.documentElement;
 
 
-
+/**
+ * Applies the new settings and removes the previous settings.
+ * @returns {void}
+ */
 function applySettings(){
     TEXT_SIZE_OPTIONS.forEach((size) => {
         pageRoot.classList.remove(`text-size-${size}`);
@@ -76,4 +79,28 @@ function applySettings(){
     );
 
 }
+
+/**
+ * Updates the selected text size and applies the current settings.
+ * Ignores values outside the accepted text-size options.
+ *
+ * @param {Event} event The button activation event.
+ * @returns {void}
+ */
+function handleTextSizeChange(event) {
+    const selectedSize = event.currentTarget.dataset.textsize;
+
+    if (!TEXT_SIZE_OPTIONS.includes(selectedSize)) {
+        return;
+    }
+
+    displaySettings.textSize = selectedSize;
+    applySettings();
+}
+
+/** initialises listeners for the textsize buttons */
+textSizeButtons.forEach((button) => {
+    button.addEventListener("click", handleTextSizeChange);
+});
+
 applySettings();
