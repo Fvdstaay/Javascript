@@ -161,7 +161,10 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-
+/**
+ * saves current display setting as a local string
+ * @returns {boolean} succes state of the save
+ */
 function saveDisplaySettings() {
     try {
         localStorage.setItem(
@@ -172,4 +175,46 @@ function saveDisplaySettings() {
         return false;
     }
 }
+
+/**
+ * Restores validated preferences from browser storage.
+ * Uses defaults for missing or invalid values and storage failures.
+ * Does not modify the stored entry.
+ *
+ * @returns {void}
+ */
+function restoreDisplaySettings() {
+    displaySettings.textSize = DEFAULT_DISPLAY_SETTINGS.textSize;
+    displaySettings.contrast = DEFAULT_DISPLAY_SETTINGS.contrast;
+
+    try {
+        const storedText = localStorage.getItem(DISPLAY_STORAGE_KEY);
+
+        if (storedText === null) {
+            return;
+        }
+
+        const savedSettings = JSON.parse(storedText);
+
+        if (
+            savedSettings === null ||
+            typeof savedSettings !== "object" ||
+            Array.isArray(savedSettings)
+        ) {
+            return;
+        }
+
+        if (TEXT_SIZE_OPTIONS.includes(savedSettings.textSize)) {
+            displaySettings.textSize = savedSettings.textSize;
+        }
+
+        if (CONTRAST_OPTIONS.includes(savedSettings.contrast)) {
+            displaySettings.contrast = savedSettings.contrast;
+        }
+    } catch {
+        // Defaults remain active if storage or JSON parsing fails.
+    }
+}
+
+restoreDisplaySettings();
 applySettings();
