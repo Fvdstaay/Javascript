@@ -395,7 +395,7 @@ footer {
     background-color: var(--color-row-background);
 }
 
-.skill-filter.is-active {
+.skill-filter[aria-pressed="true"]  {
     background-color: var(--color-primary);
     color: var(--color-surface);
     font-weight: bold;

@@ -243,9 +243,8 @@ filterButtons.forEach((button) => {
 
         filterButtons.forEach((filterButton) => {
             const isActive =
-                filterButton.dataset.category === activeCategory;
+                (filterButton.dataset.category === activeCategory);
 
-            filterButton.classList.toggle("is-active", isActive);
             filterButton.setAttribute(
                 "aria-pressed",
                 String(isActive)
