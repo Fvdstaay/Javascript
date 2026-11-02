@@ -255,7 +255,7 @@ function validateComments() {
         showFieldError(
             commentsInput,
             commentsError,
-            `Please enter at least ${MIN_COMMENTS_LENGTH} characters.`
+            `Please enter at least ${MIN_COMMENTS_LENGTH} non-whitespace characters.`
         );
         return false;
     }

@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 
 /**
@@ -181,7 +181,7 @@ function initializeDisplayControls() {
 }
 
 /**
- * saves current display setting as a local string
+ * saves current display setting as a JSON string in local storage
  * @returns {boolean} succes state of the save
  */
 function saveDisplaySettings() {
