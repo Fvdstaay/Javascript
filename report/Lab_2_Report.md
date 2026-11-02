@@ -1,157 +1,74 @@
 # Lab 2 Interactive Portfolio Report
 
-Floris van der Staaij| DA558A | Target Grade 5
+Floris van der Staaij | DA558A | Target Grade 5
+
+Student ID: flvaa003
 
 Repository: https://github.com/Fvdstaay/Javascript
 
-Progress recorded on 2 November 2026
+Report date: 2 November 2026
 
 ## Project information
 
-I am extending my Lab 1 portfolio with vanilla JavaScript, targeting Grade 5. The current implementation contains the feedback form structure, supporting CSS, shared JavaScript helpers, and validation for all five fields, including a live comments counter. Submission handling validates all fields and displays personalized success feedback. Successful submission resets the form, and a timer is configured to remove the message after four seconds. The skills showcase now renders ten skills from data, supports category filtering, and displays a result count and empty-state feedback.
+I extended my Lab 1 portfolio with three vanilla JavaScript features: an accessible feedback form, a data-driven skills showcase, and persistent text-size and contrast controls. The project uses external scripts and local images without a backend or build step. Opening `code/home.html` runs the site. Feedback is not stored or sent; only display preferences are saved locally.
 
-## Feedback form implementation
+## Feedback form
 
-The feedback form is integrated into the Contact section of code/home.html. It contains required Full Name, Email, Topic of Interest, and Comments fields, plus an optional Website field. HTML attributes provide required-field constraints, minimum lengths, and email or URL types. Each control has a visible label and references its adjacent error paragraph through aria-describedby. The comments field also references its character counter.
+The Contact section contains required Full Name, Email, Topic, and Comments fields and an optional Website field. Visible labels identify each control. `aria-describedby` connects controls to their error messages and connects Comments to its guidance and counter. A status area announces success. CSS distinguishes neutral, focus, invalid, and valid states, with written errors so color is not the only feedback.
 
-The stylesheet provides neutral controls, visible focus, red invalid states, green valid states, and a red required-field marker. The form uses flexible layouts and full-width controls. These styles prepare the interface for validation; their presence alone does not demonstrate that validation works.
+In `code/feedback.js`, field references are cached and focused validators return booleans. Names allow international letters, combining marks, spaces, apostrophes, and hyphens. Email and Website checks use browser validity properties; an empty Website remains neutral. Text fields validate on blur and recheck after editing a previously validated value. Topic validates on change and blur.
 
-## Normal form appearance
+Comments validate on input and blur. The input handler calls `updateCommentsCounter()` and `validateComments()`. Both use `countCommentCharacters()` to count Unicode code points excluding whitespace, with a minimum of 15. Red and green counter feedback communicates whether that minimum is reached. The counter continues beyond 15.
 
-![Feedback form before interaction with all five fields and both buttons](screenshots/form-normal.png)
+`showFieldError()` updates classes, written text, and `aria-invalid`. The corresponding clearing, valid-state, and reset helpers keep presentation separate from validation. `handleSubmit()` prevents navigation, runs every validator, and focuses the first invalid control. On success it captures the name, resets the form, and inserts personalized feedback using `textContent`. Reset restores neutral states and grey 0/15. A four-second timeout removes success feedback; pending timers are cancelled before reset or another submission.
 
-*Figure 1: The feedback form before interaction. Required fields have red asterisks, controls have neutral borders, and the counter shows zero characters with a 15-character minimum. The Website field is optional. This image documents the initial appearance, not validation behavior.*
+![Normal feedback form](screenshots/form-normal.png)
 
-## Shared JavaScript helpers
+*Figure 1: The form before interaction, showing all five fields, required markers, neutral borders, and both buttons. This earlier capture uses the original counter layout.*
 
-code/feedback.js stores references to the form controls and feedback elements once using const. showFieldError() removes the valid class, adds the invalid class, sets aria-invalid to true, and writes a message using textContent. clearFieldError() removes the error class and aria-invalid attribute and empties the error message. showFieldValid() clears an error and adds the valid class. resetFieldState() clears the error and removes the valid class, returning the field to a neutral appearance without changing its value.
+![Invalid feedback submission](screenshots/form-invalid-submit.png)
 
-The helpers separate presentation updates from validation rules. They update field styling, accessible invalid states, and error messages without changing field values. The field validators call these helpers in response to blur, input, and change events.
+*Figure 2: An empty submission produces written errors for all required fields and returns focus to Full Name. The optional Website remains neutral.*
 
-## Field validation
+![Successful submission and reset](screenshots/form-success-reset.png)
 
-Full Name, Email, Topic of Interest, and the optional Website field have dedicated validators. Text fields are checked when they lose focus and rechecked during editing after their first validation. Topic selection is checked on change and blur. Each validator returns a boolean and uses the shared helpers to update error text, styling, and accessible invalid state.
+*Figure 3: Successful feedback displays the entered name while values, validation styling, and the counter reset. The four-second duration was checked through interaction, rather than inferred from this image.*
 
-Name validation checks the trimmed value for at least two Unicode code points and allows international letters, combining marks, spaces, apostrophes, and hyphens while requiring at least one letter. Email and Website validation use the browser's typeMismatch property. Topic validation rejects the empty placeholder value. An empty Website field is accepted and returned to a neutral appearance because it is optional.
+## Skills showcase
 
-## Comments validation and counter
+`code/skills.js` defines ten objects in three categories. Each contains a unique numeric `id`, `name`, `category`, integer `proficiency` from 1 to 5, nonnegative `yearsExperience`, and `description`. `renderSkills()` creates one article per object in a document fragment, then replaces the container children to avoid duplication. Cards show category badges, experience, descriptions, and five proficiency dots. An accessible label exposes each rating while individual dots are decorative.
 
-Comments are validated on input and blur. Every input event also updates the written character count and its red or green minimum-length feedback. Validation requires at least 15 non-whitespace Unicode code points. The counter uses the same rule and continues counting beyond the minimum. The counter and validator share one minimum-length constant.
+Filter-button events read `data-category`, update `activeCategory`, synchronize visual and `aria-pressed` states, and call `updateSkills()`. That function filters, sorts the derived array, renders, and updates the result count. The source array remains unchanged. Proficiency and experience support both directions; names use `localeCompare()` for A to Z. Original order skips sorting. Filter and sort remain active together, and an empty result receives written feedback.
 
-![Feedback form showing field errors and a live comments counter](screenshots/form-field-errors.png)
+One state-management issue was the All Skills choice. The string `"all"` is not an actual skill category, so equality alone returned no results. The explicit condition `activeCategory === "all" || skill.category === activeCategory` gives that selection its intended meaning.
 
-*Figure 2: Field-validation feedback during editing. The name floris11 contains digits, the supplied email and Website values produce format errors, and the four-character comment is below the 15-character minimum. Coffee and pastries is selected and shown as valid. Errors include written explanations. This captures field feedback, rather than validation triggered by form submission.*
+![Programming filter with proficiency sorting](screenshots/skills-filter-sort.png)
 
-## Submission feedback
+*Figure 4: Programming and highest-first proficiency are active together, with four of ten results. Python and Java have four filled dots and precede C#, with two. C++ begins below the first row and is partly visible.*
 
-The submit handler prevents navigation, runs all five validators, and updates the counter. If any field is invalid, it focuses the first invalid control. Otherwise, it inserts a personalized success message using textContent. Browser validation popups are disabled through JavaScript so the handler can display all field errors together, while the validators still read browser validity properties.
+## Display settings and persistence
 
-![Invalid submission with errors for all required fields](screenshots/form-invalid-submit.png)
+`code/display-settings.js` defines accepted values, frozen Medium/Normal defaults, and a separate mutable settings object. Size activation reads `data-textsize`, validates it, updates state, applies settings, and saves. Contrast activation switches normal/high state. `applySettings()` removes previous setting classes, adds current classes to HTML, and synchronizes `aria-pressed`. CSS uses root sizes of 14px, 16px, and 20px and overrides theme variables for high contrast.
 
-*Figure 3: Submitting an empty form shows written errors for Full Name, Email, Topic, and Comments. Focus returns to Full Name. The empty optional Website field remains neutral.*
+The floating monitor-and-gear launcher opens a nonmodal panel using `hidden` and `aria-expanded`. Opening focuses the selected size. Close and Escape return focus to the launcher, and hidden controls are skipped. The contrast button has switch-style decoration while retaining toggle-button semantics.
 
-![Successful submission with cleared fields and personalized feedback](screenshots/form-success-reset.png)
+`saveDisplaySettings()` writes the settings as a JSON string under `portfolio-display-settings` in localStorage. Restoration starts from defaults, rejects invalid JSON shapes, and validates each property independently. Invalid text size therefore falls back to Medium without discarding valid High contrast. Storage exceptions are caught so controls can remain usable. Unavailable-storage behavior has not been separately browser-tested.
 
-*Figure 4: After successful submission, the personalized message “Thanks for your feedback, hello!” remains visible while the fields are cleared, the topic placeholder is restored, validation borders return to neutral, and the counter returns to grey 0/15.*
+The settings script runs before the stylesheet and restores root classes early. DOMContentLoaded initializes references and listeners, then synchronizes controls. This avoids accessing buttons before they exist and reduces incorrect-style flashing. Approximately 0.3-second transitions are enabled only after user interaction; reduced-motion preferences disable these and card entrance animation.
 
-## Reset and message lifecycle
+![Normal contrast landing page](screenshots/display-verification-normal.png)
 
-Successful submission captures the name before calling feedbackForm.reset(). The reset event clears field errors, validation classes, aria-invalid attributes, the counter state, and any existing success message. The browser restores the field values. The submit handler then displays the personalized message and schedules its removal after four seconds. Clear uses the same reset event. A stored timer reference allows pending message removal to be cancelled before another submission or reset. Figure 4 shows the reset appearance; the four-second duration requires a separate timed interaction check.
+*Figure 5: The normal-contrast landing page with its floating launcher and no console errors displayed. The panel is closed, so this capture does not independently show the selected text size.*
 
-## Skills data and rendering
+![Large text and high contrast](screenshots/display-floating-high-contrast.png)
 
-The skills array in `code/skills.js` contains ten objects across Web Development, Programming, and Development Tools. Each object has a unique numeric `id`, a `name`, a `category`, a proficiency rating from 1 to 5, nonnegative `yearsExperience`, and a `description`. These objects are the source of the displayed content rather than manually written HTML cards.
+*Figure 6: The same portfolio in Large text and High contrast, with the panel open over the skills section. Large is selected and the contrast switch is on. The captures show different page sections; the six-combination results below provide the interaction evidence.*
 
-`renderSkills()` receives an array and creates an article for each skill, including a heading, category badge, five proficiency dots, experience, and description. It assembles the cards in a document fragment and replaces the container's children, so repeated rendering does not duplicate cards. The dot group exposes the skill name and rating through an accessible label; individual dots are decorative. CSS lays out the cards in a responsive grid.
+## Verification
 
-## Category filtering and result feedback
+On 29 October, an automated Node check ran the actual skills code with a lightweight simulated DOM. All 24 category/sort combinations passed for membership, ordering, stable ties, counts, selected states, ratings, and unchanged source data. Category changes preserved sorting, and the empty state passed. This was not automated real-browser testing.
 
-Each filter button stores its category in `data-category`. Clicking a button updates `activeCategory`, synchronizes the active class and `aria-pressed` on all buttons, and calls `updateSkills()`. That function uses `filter()` to create a derived array, passes it to the renderer, and updates the status text to “Showing X of Y skills”. The original array is not modified. Native buttons support keyboard activation without separate key handlers.
-
-The All Skills option needs an explicit condition: `activeCategory === "all" || skill.category === activeCategory`. Initializing the state to the string `"all"` does not give it special filtering behavior. Without the first condition, no category matches and the result is empty. This was an implementation issue discussed and corrected while developing filtering.
-
-When the supplied array is empty, the renderer replaces the cards with “No skills in this category”. The total count is derived from the source array, while the visible count comes from the filtered array. Figure 5 shows the filtered desktop layout and displayed result count. Figure 7 additionally documents the narrow layout. Keyboard operation was confirmed in the browser on 29 October 2026.
-
-![Web Development filter selected with three matching skill cards](screenshots/skills-web-development.png)
-
-*Figure 5: Selecting Web Development displays HTML, CSS, and JavaScript and updates the counter to “Showing 3 of 10 skills”. The active button has distinct styling and a visible focus outline. Each card shows its category, proficiency dots, experience, and description. This screenshot documents category filtering before sorting is added.*
-
-## Combined filtering and sorting
-
-`updateSkills()` first filters the source array and then sorts the resulting array according to the selector before rendering the cards and updating the count. Numeric comparison functions support highest-first and lowest-first proficiency and experience. Because `filter()` returns a new array, sorting does not change the original data order. The Original order option skips sorting. Changing the category uses the currently selected sort, and changing the sort retains the current category.
-
-![Programming filter combined with descending proficiency sorting](screenshots/skills-filter-sort.png)
-
-*Figure 6: Programming is selected together with “Proficiency: highest to lowest”, and the counter shows “Showing 4 of 10 skills”. Python and Java, each rated four out of five, appear before C#, rated two out of five. The fourth result, C++, begins below the first row and is partially visible in this capture.*
-
-The alphabetical option now uses `name-asc`, matching its JavaScript case and the `localeCompare()` comparison. Figure 6 provides browser evidence for combined category filtering and descending proficiency.
-
-## Filter and sort verification
-
-On 29 October 2026, an automated code-level check executed the actual `skills.js` in Node with a lightweight simulated DOM and controls derived from the current HTML. All 24 category and sort combinations passed. Each combination was checked for card membership, ordering, stable ordering for equal values, result count, selected-button styling, `aria-pressed`, five-dot ratings, and unchanged source data. A second pass changed categories under each selected sort and verified that the sort was preserved. Empty-state feedback also passed.
-
-| Category | Original | Proficiency descending | Proficiency ascending | Experience descending | Experience ascending | Name A to Z |
-|---|---|---|---|---|---|---|
-| All Skills | Pass | Pass | Pass | Pass | Pass | Pass |
-| Web Development | Pass | Pass | Pass | Pass | Pass | Pass |
-| Programming | Pass | Pass | Pass | Pass | Pass | Pass |
-| Development Tools | Pass | Pass | Pass | Pass | Pass | Pass |
-
-These checks verify JavaScript behavior in a simulated DOM. They do not verify real-browser rendering, native keyboard behavior, screen-reader announcements, responsive layout, or the browser console. Those require separate browser checks.
-
-## Responsive layout and motion preferences
-
-![Narrow skills layout with wrapped filters and a single-column card](screenshots/skills-mobile.png)
-
-*Figure 7: In the supplied narrow-viewport capture, the category buttons wrap across rows and the sort control appears beneath them. Development Tools is selected with alphabetical sorting, the counter shows three of ten results, and the first card is Browser Developer Tools. The visible card text wraps within its boundaries. The exact viewport width was not recorded.*
-
-The stylesheet defines a short card entrance animation and filter color transitions. A `prefers-reduced-motion: reduce` query disables the card animation and the form and filter transitions. The screenshot documents the narrow layout. On 29 October 2026, I confirmed that reduced-motion behavior works in the browser. On the same date, I also confirmed that the skills controls work using the keyboard.
-
-## Display settings
-
-`code/display-settings.js` defines accepted text-size and contrast values, frozen defaults of medium text and normal contrast, and a separate mutable settings object. `applySettings()` removes previous setting classes from the HTML element, adds the current classes, and synchronizes the controls through `aria-pressed`. Removing old classes prevents competing settings from remaining active together.
-
-Text-size button activation reads `data-textsize`, checks that the value is accepted, updates state, and calls `applySettings()`. The stylesheet maps Small, Medium, and Large to root font sizes of 14px, 16px, and 20px. The contrast button switches state between normal and high; the contrast class overrides shared color variables and component rules. Both preferences are now saved to localStorage when either changes and restored through validated state on page load.
-
-![Large text and high contrast with active display controls](screenshots/display-large-high-contrast.png)
-
-*Figure 8: Large text and High contrast are selected. The page has a black background, light text, and a yellow focus outline around Large. The header in this captured version uses black text on a white background. This is an intermediate display-panel design before the planned floating control refinement.*
-
-The screenshot and reported working controls provide evidence of the displayed combination. They do not establish that all six combinations, mobile layouts, or reload persistence have been verified. A comparable default-view capture will complete the report's display comparison.
-
-## Floating display controls
-
-The display panel now opens from a fixed monitor-and-gear launcher instead of occupying space above the page introduction. The launcher exposes `aria-expanded` and identifies the controlled panel. `setDisplayPanelOpen()` changes the panel's hidden state and moves focus to the selected text-size button when opening. Closing through the close button or Escape returns focus to the launcher. The panel is nonmodal, so the rest of the page remains available. The contrast control retains toggle-button semantics through `aria-pressed` while a decorative track and thumb provide a switch appearance.
-
-![Floating display panel over the skills showcase in large text and high contrast](screenshots/display-floating-high-contrast.png)
-
-*Figure 9: The floating display panel is open over the skills section with Large selected, High contrast enabled, and a yellow focus indicator. The monitor-and-gear launcher remains visible at the bottom right. The skills counter shows ten of ten results, and the visible cards retain readable text and proficiency dots. The panel overlays part of the page; this capture does not establish mobile or keyboard test results.*
-
-The launcher uses an SVG icon with a PNG fallback and text if both images are unavailable. While implementing this, incorrect relative paths and misspelled filenames caused image-loading failures, and fixed icon dimensions clipped the fallback text. The icon references and fallback sizing were refined during the interface work.
-
-## Saving and restoring display preferences
-
-`saveDisplaySettings()` serializes the current settings object as JSON under the key `portfolio-display-settings`. Both text-size and contrast handlers call it after updating the page. Storage errors are caught so the controls remain usable if saving fails.
-
-`restoreDisplaySettings()` starts with Medium and Normal defaults, reads the stored entry, parses the JSON, and rejects null, arrays, and non-object values. Each property is checked independently against its accepted values before being copied into the current state. Missing or invalid properties retain their defaults. Storage access or JSON parsing failures also leave defaults active. The function does not overwrite the stored entry. Restoration runs before `applySettings()`, keeping page classes and pressed states consistent with the restored state.
-
-Saving was observed through the console storage read showing the saved text size and contrast. Reload persistence and invalid-value browser checks were subsequently confirmed on 2 November 2026, as recorded below. Unavailable-storage behavior is handled in code but has not been separately confirmed in the browser.
-
-## Early settings application
-
-The settings script now runs in the document head before the stylesheet. It restores preferences and applies the root classes before parsing the page content. Control references and event registration are deferred until DOMContentLoaded; a second applySettings() call synchronizes the controls without rereading or overwriting storage. This separates early theme application from DOM-dependent setup.
-
-On 2 November 2026, I confirmed that the revised early-loading implementation works in the browser. This records the reported startup test outcome; invalid-storage cases and the full six-combination matrix were subsequently confirmed in the display verification results below.
-
-## Display transitions and reduced motion
-
-Text-size and contrast interactions add `display-transitions-enabled` to the root element. This enables approximately 0.3-second transitions for root text size, component colors and borders, and the switch thumb. The class is not stored, so initial preference restoration does not enable these transitions. Focus outlines are not animated.
-
-A `prefers-reduced-motion: reduce` query disables the display transitions, including pseudo-elements, while the existing rule disables card entrance animation. These behaviors are implemented in the source. The earlier confirmed reduced-motion test covered the skills showcase; the newer display transitions were subsequently confirmed in the display verification results below.
-
-## Display verification results
-
-On 2 November 2026, I completed the display verification checklist and confirmed that all tests passed. This included all six text-size and contrast combinations, restoration after reload, matching pressed states, readable page components and focus indicators, and no project console errors during the checks.
+On 2 November, I confirmed that the following browser checks passed:
 
 | Text size | Normal contrast | High contrast |
 |---|---|---|
@@ -159,42 +76,24 @@ On 2 November 2026, I completed the display verification checklist and confirmed
 | Medium | Passed | Passed |
 | Large | Passed | Passed |
 
-Keyboard checks passed for opening the panel, focus placement on the selected size, activating settings, closing with Escape or the close button, returning focus to the launcher, and skipping hidden controls. The display transitions were checked with reduced motion enabled and disabled; saved preferences applied immediately on reload.
+The checks covered reload persistence, matching control states, readable components, keyboard activation, opening and closing the panel, focus return, reduced motion, and immediate application of saved preferences. Invalid size with valid contrast restored Medium/High; malformed JSON restored Medium/Normal without an uncaught project error.
 
-The invalid text-size test restored Medium while preserving valid High contrast. Malformed JSON restored Medium and Normal without an uncaught project error. These are browser test results reported by the author, separate from the earlier automated skills checks. Unavailable browser storage was not part of this manual test checklist.
+Cross-feature checks passed for empty and successful submissions, the 14-to-15 non-whitespace boundary, Clear, timer cancellation and replacement, filtering and sorting under Large/High settings, and preservation of form input and skills selections when changing display preferences. At 375px with Large/High, controls remained usable, comments scrolled without counter overlap, and no unwanted page overflow or project console errors were reported. These are my reported manual browser results. They do not constitute a screen-reader audit.
 
-![Large text and high contrast during display verification](screenshots/display-verification-high.png)
+## Personal reflection
 
-*Figure 10: The open panel shows Large selected and High contrast enabled. The console shows the command used to insert malformed JSON into storage; the current page still displays its active settings before the reload. This image records test setup, not the post-reload fallback result.*
+### The interaction I am most confident explaining
 
-![Normal-contrast landing page with the console open](screenshots/display-verification-normal.png)
+I am most confident explaining the display settings because I had the most fun implementing this feature. I knew it would involve substantial work, so I established its framework before adding the individual behaviors. When someone clicks Large, the event handler updates the current settings object, applies the setting to the page, and saves the current preferences as a JSON string in localStorage. Contrast is the part I understand best: changing the contrast state changes the class applied to the page, which selects the corresponding color rules.
 
-*Figure 11: The landing page in normal contrast with the floating launcher visible and no console errors displayed. The panel is closed, so this image does not independently identify the selected text size. Together the captures illustrate the normal and high-contrast appearances; the six-combination and reload outcomes are documented in the reported tests above.*
+### How my solution changed during development
 
-## Cross feature regression results
+The comments counter is a good example of how my solution changed. I initially displayed it separately, but I did not like how it looked. I tried placing it inside the textarea visually, then found that it covered text when longer comments scrolled underneath it. I refined the design into a separate footer that looks like part of the same control without covering the writing area. The result is quite different from my initial implementation. The counter and submission work in 1100171, followed by the reset and overlap fixes in d496c3f, record that development in Git.
 
-On 2 November 2026, I completed the cross-feature regression checklist and confirmed that all checks passed. The checks covered empty submissions, the 14-to-15 non-whitespace character boundary, whitespace exclusion, complete Clear behavior, successful submission and reset, four-second message removal, and cancellation or replacement of pending success timers.
+### What I would develop with another session
 
-The skills checks passed with Large text and High contrast: category filtering, numeric sorting in both directions, alphabetical sorting, result counts, and restoration of the original order. Changing display preferences preserved in-progress form input and the current skill filter and sort. Display preferences returned after reload; form values and skill selections are not designed to persist.
-
-Keyboard opening and closing of the display panel, including Escape, passed. The reported narrow-layout checks at 375px with Large text and High contrast passed for readable controls and messages, panel access, comments scrolling without counter overlap, and no unwanted horizontal page scrolling. No project console errors were reported during the checks. These outcomes are author-reported browser tests, rather than automated browser execution.
+With another development session, I would like to add a page focused on images and how they behave while scrolling. I want to make the website more visually expressive while keeping the text readable as background colors change. I would explore how image movement, background colors, and text contrast can work together without sacrificing readability. This would build on the display and contrast work I enjoyed most in this lab.
 
 ## Git development
 
-I developed the feedback form in separate steps: portfolio structure fixes (3b1405a), form markup (8fec860), and interaction styling (a097ae7). I then added documented feedback helpers (66bb915), field validation (4945431), and the live comments counter (67c3b78). Keeping these changes separate makes it possible to follow how the form progressed from HTML structure to interactive feedback.
-
-Submission handling and the inset counter were added in 1100171. During testing, long comments revealed that the counter could cover text, and Clear left feedback behind. Commit d496c3f completed the reset and timer behavior and moved the counter into a separate footer to prevent overlap. This sequence records a concrete refinement prompted by testing rather than only the finished interface. The report began in its own commit, 325cf64, so documentation developed alongside the implementation.
-
-For the skills showcase, I first defined the data (c9ba3b0), replaced the static table with containers (7f1d533), and added rendering from the array (3d2da3f). I then added category, proficiency, and experience information (118c1fa) before styling the responsive cards and replacing meters with accessible dot ratings (80e2da1). Separating data, rendering, and presentation made each stage easier to review. Category controls were added in d08f215, filtering and synchronized button state in 392014e, and result counts with empty-state feedback in e1af1de. The sort selector was added in c9a54ad and sorting logic in 7c2ffce, including both numeric directions. The alphabetical option-value mismatch was subsequently corrected in the working files.
-
-The display controls were styled in 88c4280, their state and defaults were introduced in 7206a79, class application and pressed-state synchronization in ca3e3b3, and text-size interaction in 2164c0f. High-contrast behavior is present in the current working code. During development, an unintended recursive call in applySettings() caused a maximum-call-stack error; moving the initial call outside the function and correcting the contrast class spelling resolved the source issues.
-
-The floating panel and its opening and closing behavior were recorded in 0cca2f7, followed by the launcher and switch presentation refinements in 4681bf7. These changes keep display controls available without reserving space in the normal page layout.
-
-Saving preferences was introduced in 1356f97 and validated restoration in 96e2117. These commits separate writing preferences from reading and validating stored data.
-
-Commit 1ae7c8a moved preference application before rendering and deferred control initialization until the document was ready. The revised startup was subsequently confirmed working in the browser.
-
-Commit 87ba2a3 added display transitions after user interaction and extended the reduced-motion override to include them.
-
-Commit 36407ed refined the mobile panel layout using shared launcher dimensions and panel offsets. Cross-feature regression checks were then completed and reported as passing on 2 November 2026.
+My history separates structure, behavior, presentation, and verification. Form markup (8fec860) preceded validation (4945431) and the counter/reset revisions described above. Skills data (c9ba3b0) preceded rendering (3d2da3f), filtering (392014e), and sorting (7c2ffce). Later commits added restoration (96e2117), early loading (1ae7c8a), and mobile refinements (36407ed). Regression results were recorded in 72f2862, showing documentation growing alongside the code.
