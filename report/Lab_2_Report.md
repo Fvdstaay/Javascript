@@ -135,13 +135,41 @@ The launcher uses an SVG icon with a PNG fallback and text if both images are un
 
 `restoreDisplaySettings()` starts with Medium and Normal defaults, reads the stored entry, parses the JSON, and rejects null, arrays, and non-object values. Each property is checked independently against its accepted values before being copied into the current state. Missing or invalid properties retain their defaults. Storage access or JSON parsing failures also leave defaults active. The function does not overwrite the stored entry. Restoration runs before `applySettings()`, keeping page classes and pressed states consistent with the restored state.
 
-Saving was observed through the console storage read showing the saved text size and contrast. Restoration is implemented in the source; reload persistence, invalid-value cases, and unavailable-storage behavior still need recorded browser test results.
+Saving was observed through the console storage read showing the saved text size and contrast. Reload persistence and invalid-value browser checks were subsequently confirmed on 2 November 2026, as recorded below. Unavailable-storage behavior is handled in code but has not been separately confirmed in the browser.
 
 ## Early settings application
 
 The settings script now runs in the document head before the stylesheet. It restores preferences and applies the root classes before parsing the page content. Control references and event registration are deferred until DOMContentLoaded; a second applySettings() call synchronizes the controls without rereading or overwriting storage. This separates early theme application from DOM-dependent setup.
 
-On 2 November 2026, I confirmed that the revised early-loading implementation works in the browser. This records the reported startup test outcome; invalid-storage cases and the full six-combination regression matrix remain separate verification tasks.
+On 2 November 2026, I confirmed that the revised early-loading implementation works in the browser. This records the reported startup test outcome; invalid-storage cases and the full six-combination matrix were subsequently confirmed in the display verification results below.
+
+## Display transitions and reduced motion
+
+Text-size and contrast interactions add `display-transitions-enabled` to the root element. This enables approximately 0.3-second transitions for root text size, component colors and borders, and the switch thumb. The class is not stored, so initial preference restoration does not enable these transitions. Focus outlines are not animated.
+
+A `prefers-reduced-motion: reduce` query disables the display transitions, including pseudo-elements, while the existing rule disables card entrance animation. These behaviors are implemented in the source. The earlier confirmed reduced-motion test covered the skills showcase; the newer display transitions were subsequently confirmed in the display verification results below.
+
+## Display verification results
+
+On 2 November 2026, I completed the display verification checklist and confirmed that all tests passed. This included all six text-size and contrast combinations, restoration after reload, matching pressed states, readable page components and focus indicators, and no project console errors during the checks.
+
+| Text size | Normal contrast | High contrast |
+|---|---|---|
+| Small | Passed | Passed |
+| Medium | Passed | Passed |
+| Large | Passed | Passed |
+
+Keyboard checks passed for opening the panel, focus placement on the selected size, activating settings, closing with Escape or the close button, returning focus to the launcher, and skipping hidden controls. The display transitions were checked with reduced motion enabled and disabled; saved preferences applied immediately on reload.
+
+The invalid text-size test restored Medium while preserving valid High contrast. Malformed JSON restored Medium and Normal without an uncaught project error. These are browser test results reported by the author, separate from the earlier automated skills checks. Unavailable browser storage was not part of this manual test checklist.
+
+![Large text and high contrast during display verification](screenshots/display-verification-high.png)
+
+*Figure 10: The open panel shows Large selected and High contrast enabled. The console shows the command used to insert malformed JSON into storage; the current page still displays its active settings before the reload. This image records test setup, not the post-reload fallback result.*
+
+![Normal-contrast landing page with the console open](screenshots/display-verification-normal.png)
+
+*Figure 11: The landing page in normal contrast with the floating launcher visible and no console errors displayed. The panel is closed, so this image does not independently identify the selected text size. Together the captures illustrate the normal and high-contrast appearances; the six-combination and reload outcomes are documented in the reported tests above.*
 
 ## Git development
 
@@ -158,3 +186,5 @@ The floating panel and its opening and closing behavior were recorded in 0cca2f7
 Saving preferences was introduced in 1356f97 and validated restoration in 96e2117. These commits separate writing preferences from reading and validating stored data.
 
 Commit 1ae7c8a moved preference application before rendering and deferred control initialization until the document was ready. The revised startup was subsequently confirmed working in the browser.
+
+Commit 87ba2a3 added display transitions after user interaction and extended the reduced-motion override to include them.
