@@ -15,6 +15,9 @@
     --color-focus: #245a91;
     --color-dot-empty: #e5e5e5;
     --color-dot-border: #737373;
+    --display-edge: 16px;
+    --display-gap: 12px;
+    --display-launcher-height: 3.5rem;
 }
 
 /* Base page styles */
@@ -538,8 +541,11 @@ footer {
 .display-settings {
     box-sizing: border-box;
     position: fixed;
-    right: 16px;
-    bottom: 88px;
+    right: var(--display-edge);
+    bottom: calc(
+        var(--display-edge) +
+        var(--display-launcher-height) +
+        var(--display-gap));
     z-index: 21;
 
     display: flex;
@@ -549,7 +555,11 @@ footer {
 
     width: 22rem;
     max-width: calc(100vw - 32px);
-    max-height: calc(100dvh - 120px);
+    max-height: calc(
+        100dvh -
+        var(--display-launcher-height) -
+        var(--display-gap) -
+        32px);
     overflow-y: auto;
     margin: 0;
     padding: 20px;
@@ -565,27 +575,48 @@ footer {
     display: none;
 }
 
+.display-settings > * {
+    flex-shrink: 0;
+}
+
+.display-panel-heading h2 {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.display-close {
+    flex-shrink: 0;
+}
+
+.display-settings .toggle > span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
 .display-launcher {
+    box-sizing: border-box;
     position: fixed;
-    right: 16px;
-    bottom: 16px;
+    right: var(--display-edge);
+    bottom: var(--display-edge);
     z-index: 22;
 
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    min-height: 48px;
+
+    height: var(--display-launcher-height);
+    min-height: 44px;
     padding: 10px 16px;
 
     background-color: var(--color-surface);
     color: var(--color-primary);
     border: 2px solid var(--color-primary);
     border-radius: 24px;
-    font: inherit;
-    cursor: pointer;
 
-    justify-content: center;
+    font: inherit;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 .display-icon,
@@ -593,6 +624,8 @@ footer {
     display: block;
     width: 5em;
     height: 2em;
+    max-height: 100%;
+
     font: inherit;
     line-height: 2;
     text-align: center;
