@@ -111,7 +111,7 @@ The stylesheet defines a short card entrance animation and filter color transiti
 
 `code/display-settings.js` defines accepted text-size and contrast values, frozen defaults of medium text and normal contrast, and a separate mutable settings object. `applySettings()` removes previous setting classes from the HTML element, adds the current classes, and synchronizes the controls through `aria-pressed`. Removing old classes prevents competing settings from remaining active together.
 
-Text-size button activation reads `data-textsize`, checks that the value is accepted, updates state, and calls `applySettings()`. The stylesheet maps Small, Medium, and Large to root font sizes of 14px, 16px, and 20px. The contrast button switches state between normal and high; the contrast class overrides shared color variables and component rules. These settings currently last for the page session and are not yet saved across reloads.
+Text-size button activation reads `data-textsize`, checks that the value is accepted, updates state, and calls `applySettings()`. The stylesheet maps Small, Medium, and Large to root font sizes of 14px, 16px, and 20px. The contrast button switches state between normal and high; the contrast class overrides shared color variables and component rules. Both preferences are now saved to localStorage when either changes and restored through validated state on page load.
 
 ![Large text and high contrast with active display controls](screenshots/display-large-high-contrast.png)
 
@@ -129,6 +129,14 @@ The display panel now opens from a fixed monitor-and-gear launcher instead of oc
 
 The launcher uses an SVG icon with a PNG fallback and text if both images are unavailable. While implementing this, incorrect relative paths and misspelled filenames caused image-loading failures, and fixed icon dimensions clipped the fallback text. The icon references and fallback sizing were refined during the interface work.
 
+## Saving and restoring display preferences
+
+`saveDisplaySettings()` serializes the current settings object as JSON under the key `portfolio-display-settings`. Both text-size and contrast handlers call it after updating the page. Storage errors are caught so the controls remain usable if saving fails.
+
+`restoreDisplaySettings()` starts with Medium and Normal defaults, reads the stored entry, parses the JSON, and rejects null, arrays, and non-object values. Each property is checked independently against its accepted values before being copied into the current state. Missing or invalid properties retain their defaults. Storage access or JSON parsing failures also leave defaults active. The function does not overwrite the stored entry. Restoration runs before `applySettings()`, keeping page classes and pressed states consistent with the restored state.
+
+Saving was observed through the console storage read showing the saved text size and contrast. Restoration is implemented in the source; reload persistence, invalid-value cases, and unavailable-storage behavior still need recorded browser test results.
+
 ## Git development
 
 I developed the feedback form in separate steps: portfolio structure fixes (3b1405a), form markup (8fec860), and interaction styling (a097ae7). I then added documented feedback helpers (66bb915), field validation (4945431), and the live comments counter (67c3b78). Keeping these changes separate makes it possible to follow how the form progressed from HTML structure to interactive feedback.
@@ -140,3 +148,5 @@ For the skills showcase, I first defined the data (c9ba3b0), replaced the static
 The display controls were styled in 88c4280, their state and defaults were introduced in 7206a79, class application and pressed-state synchronization in ca3e3b3, and text-size interaction in 2164c0f. High-contrast behavior is present in the current working code. During development, an unintended recursive call in applySettings() caused a maximum-call-stack error; moving the initial call outside the function and correcting the contrast class spelling resolved the source issues.
 
 The floating panel and its opening and closing behavior were recorded in 0cca2f7, followed by the launcher and switch presentation refinements in 4681bf7. These changes keep display controls available without reserving space in the normal page layout.
+
+Saving preferences was introduced in 1356f97 and validated restoration in 96e2117. These commits separate writing preferences from reading and validating stored data.

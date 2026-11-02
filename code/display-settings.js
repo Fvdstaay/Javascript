@@ -42,17 +42,15 @@ const displaySettings = {
     ...DEFAULT_DISPLAY_SETTINGS
 };
 
-// Store control references once.
-const textSizeButtons = document.querySelectorAll(
-    "#display-settings .text-size-button"
-);
-
-const contrastToggle = document.getElementById("contrast-toggle");
 const pageRoot = document.documentElement;
-const displayPanel = document.getElementById("display-settings");
-const displayLauncher = document.getElementById("display-launcher");
-const displayClose = document.getElementById("display-close");
 const DISPLAY_STORAGE_KEY = "portfolio-display-settings";
+
+// Controls are selected after the document has been parsed.
+let textSizeButtons = [];
+let contrastToggle = null;
+let displayPanel = null;
+let displayLauncher = null;
+let displayClose = null;
 
 
 /**
@@ -78,10 +76,12 @@ function applySettings(){
         button.setAttribute("aria-pressed", String(isSelected));
     });
 
-    contrastToggle.setAttribute(
-        "aria-pressed",
-        String(displaySettings.contrast === "high")
-    );
+    if (contrastToggle !== null) {
+        contrastToggle.setAttribute(
+            "aria-pressed",
+            String(displaySettings.contrast === "high")
+        );
+    }
 
 }
 
@@ -139,27 +139,45 @@ function setDisplayPanelOpen(isOpen) {
     }
 }
 
-/** initialises listeners for the textsize buttons */
-textSizeButtons.forEach((button) => {
-    button.addEventListener("click", handleTextSizeChange);
-});
+/**
+ * Selects controls, connects events, and synchronizes their pressed states.
+ * Runs after the document has been parsed.
+ *
+ * @returns {void}
+ */
+function initializeDisplayControls() {
+    textSizeButtons = document.querySelectorAll(
+        "#display-settings .text-size-button"
+    );
 
-contrastToggle.addEventListener("click", handleContrastToggle);
+    contrastToggle = document.getElementById("contrast-toggle");
+    displayPanel = document.getElementById("display-settings");
+    displayLauncher = document.getElementById("display-launcher");
+    displayClose = document.getElementById("display-close");
 
-displayLauncher.addEventListener("click", () => {
-    setDisplayPanelOpen(displayPanel.hidden);
-});
+    textSizeButtons.forEach((button) => {
+        button.addEventListener("click", handleTextSizeChange);
+    });
 
-displayClose.addEventListener("click", () => {
-    setDisplayPanelOpen(false);
-});
+    contrastToggle.addEventListener("click", handleContrastToggle);
 
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !displayPanel.hidden) {
-        event.preventDefault();
+    displayLauncher.addEventListener("click", () => {
+        setDisplayPanelOpen(displayPanel.hidden);
+    });
+
+    displayClose.addEventListener("click", () => {
         setDisplayPanelOpen(false);
-    }
-});
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !displayPanel.hidden) {
+            event.preventDefault();
+            setDisplayPanelOpen(false);
+        }
+    });
+
+    applySettings();
+}
 
 /**
  * saves current display setting as a local string
@@ -171,6 +189,7 @@ function saveDisplaySettings() {
             DISPLAY_STORAGE_KEY,
             JSON.stringify(displaySettings)
         );
+        return true;
     } catch {
         return false;
     }
@@ -216,5 +235,17 @@ function restoreDisplaySettings() {
     }
 }
 
+// Apply saved classes before the page content is parsed.
 restoreDisplaySettings();
 applySettings();
+
+// Connect controls once their HTML exists.
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeDisplayControls,
+        { once: true }
+    );
+} else {
+    initializeDisplayControls();
+}
