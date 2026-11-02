@@ -171,6 +171,14 @@ The invalid text-size test restored Medium while preserving valid High contrast.
 
 *Figure 11: The landing page in normal contrast with the floating launcher visible and no console errors displayed. The panel is closed, so this image does not independently identify the selected text size. Together the captures illustrate the normal and high-contrast appearances; the six-combination and reload outcomes are documented in the reported tests above.*
 
+## Cross feature regression results
+
+On 2 November 2026, I completed the cross-feature regression checklist and confirmed that all checks passed. The checks covered empty submissions, the 14-to-15 non-whitespace character boundary, whitespace exclusion, complete Clear behavior, successful submission and reset, four-second message removal, and cancellation or replacement of pending success timers.
+
+The skills checks passed with Large text and High contrast: category filtering, numeric sorting in both directions, alphabetical sorting, result counts, and restoration of the original order. Changing display preferences preserved in-progress form input and the current skill filter and sort. Display preferences returned after reload; form values and skill selections are not designed to persist.
+
+Keyboard opening and closing of the display panel, including Escape, passed. The reported narrow-layout checks at 375px with Large text and High contrast passed for readable controls and messages, panel access, comments scrolling without counter overlap, and no unwanted horizontal page scrolling. No project console errors were reported during the checks. These outcomes are author-reported browser tests, rather than automated browser execution.
+
 ## Git development
 
 I developed the feedback form in separate steps: portfolio structure fixes (3b1405a), form markup (8fec860), and interaction styling (a097ae7). I then added documented feedback helpers (66bb915), field validation (4945431), and the live comments counter (67c3b78). Keeping these changes separate makes it possible to follow how the form progressed from HTML structure to interactive feedback.
@@ -188,3 +196,5 @@ Saving preferences was introduced in 1356f97 and validated restoration in 96e211
 Commit 1ae7c8a moved preference application before rendering and deferred control initialization until the document was ready. The revised startup was subsequently confirmed working in the browser.
 
 Commit 87ba2a3 added display transitions after user interaction and extended the reduced-motion override to include them.
+
+Commit 36407ed refined the mobile panel layout using shared launcher dimensions and panel offsets. Cross-feature regression checks were then completed and reported as passing on 2 November 2026.
