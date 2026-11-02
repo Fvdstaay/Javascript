@@ -4,7 +4,7 @@ Floris van der Staaij| DA558A | Target Grade 5
 
 Repository: https://github.com/Fvdstaay/Javascript
 
-Progress recorded on 30 October 2026
+Progress recorded on 2 November 2026
 
 ## Project information
 
@@ -137,6 +137,12 @@ The launcher uses an SVG icon with a PNG fallback and text if both images are un
 
 Saving was observed through the console storage read showing the saved text size and contrast. Restoration is implemented in the source; reload persistence, invalid-value cases, and unavailable-storage behavior still need recorded browser test results.
 
+## Early settings application
+
+The settings script now runs in the document head before the stylesheet. It restores preferences and applies the root classes before parsing the page content. Control references and event registration are deferred until DOMContentLoaded; a second applySettings() call synchronizes the controls without rereading or overwriting storage. This separates early theme application from DOM-dependent setup.
+
+On 2 November 2026, I confirmed that the revised early-loading implementation works in the browser. This records the reported startup test outcome; invalid-storage cases and the full six-combination regression matrix remain separate verification tasks.
+
 ## Git development
 
 I developed the feedback form in separate steps: portfolio structure fixes (3b1405a), form markup (8fec860), and interaction styling (a097ae7). I then added documented feedback helpers (66bb915), field validation (4945431), and the live comments counter (67c3b78). Keeping these changes separate makes it possible to follow how the form progressed from HTML structure to interactive feedback.
@@ -150,3 +156,5 @@ The display controls were styled in 88c4280, their state and defaults were intro
 The floating panel and its opening and closing behavior were recorded in 0cca2f7, followed by the launcher and switch presentation refinements in 4681bf7. These changes keep display controls available without reserving space in the normal page layout.
 
 Saving preferences was introduced in 1356f97 and validated restoration in 96e2117. These commits separate writing preferences from reading and validating stored data.
+
+Commit 1ae7c8a moved preference application before rendering and deferred control initialization until the document was ready. The revised startup was subsequently confirmed working in the browser.

@@ -94,7 +94,7 @@ function applySettings(){
  */
 function handleTextSizeChange(event) {
     const selectedSize = event.currentTarget.dataset.textsize;
-
+    pageRoot.classList.add("display-transitions-enabled");
     if (!TEXT_SIZE_OPTIONS.includes(selectedSize)) {
         return;
     }
@@ -111,6 +111,7 @@ function handleTextSizeChange(event) {
  * @returns {void}
  */
 function handleContrastToggle() {
+    pageRoot.classList.add("display-transitions-enabled");
     displaySettings.contrast =
         displaySettings.contrast === "normal" ? "high" : "normal";
 

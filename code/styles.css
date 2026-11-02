@@ -727,6 +727,49 @@ html.contrast-high .display-icon {
     background-color: var(--color-surface);
 }
 
+
+
+/* Animate display changes only after user interaction. */
+html.display-transitions-enabled {
+    transition:
+        font-size 0.3s ease,
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.display-transitions-enabled body,
+.display-transitions-enabled header,
+.display-transitions-enabled footer,
+.display-transitions-enabled .polaroid,
+.display-transitions-enabled .skill-card,
+.display-transitions-enabled .skill-category,
+.display-transitions-enabled .skills-empty,
+.display-transitions-enabled .skill-filter,
+.display-transitions-enabled .skills-sort select,
+.display-transitions-enabled .display-settings,
+.display-transitions-enabled .display-launcher,
+.display-transitions-enabled .display-close,
+.display-transitions-enabled .text-size-controls,
+.display-transitions-enabled .text-size-button,
+.display-transitions-enabled .toggle,
+.display-transitions-enabled .toggle-track,
+.display-transitions-enabled #comments-counter,
+.display-transitions-enabled .form_field input,
+.display-transitions-enabled .form_field select,
+.display-transitions-enabled .form_field textarea,
+.display-transitions-enabled .button {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.display-transitions-enabled .toggle-track::after {
+    transition:
+        transform 0.3s ease,
+        background-color 0.3s ease;
+}
+
 /* Small screens (700px and below) */
 @media (max-width: 700px) {
     header {
@@ -768,5 +811,12 @@ html.contrast-high .display-icon {
 
     .skill-card {
         animation: none;
+    }
+
+    html.display-transitions-enabled,
+    html.display-transitions-enabled *,
+    html.display-transitions-enabled *::before,
+    html.display-transitions-enabled *::after {
+        transition: none;
     }
 }
